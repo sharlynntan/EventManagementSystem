@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/default.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Registration Page
+    </ui:define>
+
+
+    <ui:define name="content">
+        <div class="center">
+            <h:form>
+                <h2>Registration Form</h2>
+                <img src="images/logo.jpeg" style ="width:250px; "/>
+                <!--                <p:panelGrid columns="4" layout="flex" columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4" styleClass="customPanelGrid" contentStyleClass="ui-fluid">
+                                    <p:outputLabel for="firstName" value = "First Name: " style = "font-weight: bold"/>
+                                    <p:inputText id="firstName"
+                                                 value="#{personManagedBean.firstName}"  placeholder = "Enter First Name" required="true" requiredMessage="Error: Please enter name"/> 
+                                    <p:outputLabel for="lastName" value = "Last Name: " style = "font-weight: bold"/>
+                                    <p:inputText id ="lastName"
+                                                 value="#{personManagedBean.lastName}" styleClass="w-12rem" style="height: 25px" placeholder = "Enter Last Name"/>
+                                    <p:outputLabel for="email" value = "Email: " style = "font-weight: bold"/>
+                                    <p:inputText id = "email"
+                                                 value="#{personManagedBean.email}" styleClass="w-16rem" style="height: 25px" placeholder = "Enter Email" required="true" requiredMessage="Error: Please enter email"/>
+                                    <h:panelGroup/>
+                                    <h:panelGroup/>
+                
+                
+                                    <p:outputLabel for="pwd1" value = "Enter Password: " style = "font-weight: bold"/>
+                                    <p:password id="pwd1" value="#{personManagedBean.password}" match="pwd2" label="Password 1" required="true" placeholder = "Enter Password" styleClass="w-12rem" style="height: 25px"/>
+                                    <p:outputLabel for="pwd2" value = "Enter Password*: " style = "font-weight: bold"/>
+                                    <p:password id="pwd2" value="#{personManagedBean.confirmedPassword}" label="Password 2" required="true" placeholder = "Confirm Password"  styleClass="w-12rem" style="height: 25px"/>
+                
+                                    <p:outputLabel for="contact" value = "Contact Number: " style = "font-weight: bold"/>
+                                    <p:inputText id ="contact"
+                                                 value="#{personManagedBean.contactNumber}" styleClass="w-12rem" style="height: 25px" placeholder = "Enter Contact" required="true" requiredMessage="Error: Please enter contact"/>
+                
+                                </p:panelGrid>-->
+                <div class="formgrid grid mx-8">
+                    <div class="field col-12 md:col-6">
+                        <p:outputLabel  for="firstname6" value="FirstName" />
+                        <p:inputText id="firstname6" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <p:outputLabel  for="lastname6" value="Lastname" />
+                        <p:inputText id="lastname6" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                    </div>
+                    <div class="field col-12 md:col-6">
+                        <p:outputLabel  for="city" value="City" />
+                        <p:inputText id="city" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                    </div>
+                    <div class="field col-12 md:col-3">
+                        <p:outputLabel  for="zip" value="Zip" />
+                        <p:inputText id="zip" type="text" class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                    </div>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>

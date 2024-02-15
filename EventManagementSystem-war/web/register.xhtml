@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/default.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Registration
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="center">
+            <h2>Registration Form</h2>
+            <img src="images/logo.jpeg" style ="width:250px; "/>
+            <br> </br>
+            <h:form>
+                <label for="firstName"><b>First Name: </b></label> <nbsp/>
+                <p:inputText
+                    value="#{personManagedBean.firstName}" styleClass="w-12rem" style="height: 25px" placeholder = "Enter First Name" required="true" requiredMessage="Error: Please enter name"/> 
+                <label for="lastName"><b>Last Name: </b></label> <nbsp/>
+                <p:inputText
+                    value="#{personManagedBean.lastName}" styleClass="w-12rem" style="height: 25px" placeholder = "Enter Last Name"/>
+                <br/>
+                <br/>
+                <label for="email"><b>Email: </b></label> <nbsp/>
+                <p:inputText
+                    value="#{personManagedBean.email}" styleClass="w-24rem" style="height: 25px" placeholder = "Enter Email" required="true" requiredMessage="Error: Please enter email"/>
+                <br> </br>
+
+                <div class="col">
+                    <label for="firstName"><b>Password: </b></label> <nbsp/>
+                    <p:password id="pwd1" value="#{personManagedBean.password}" match="pwd2" label="Password 1" required="true" placeholder = "Enter Password" styleClass="w-22rem" style="height: 25px"/>
+                </div>
+
+                <div class="col">
+                    <label for="firstName"><b>Password: </b></label> <nbsp/>
+                    <p:password id="pwd2" value="#{personManagedBean.confirmedPassword}" label="Password 2" required="true" placeholder = "Confirm Password"  styleClass="w-22rem" style="height: 25px"/>
+                </div>
+
+                <br/>
+                <label for="contact"><b>Contact: </b></label> <nbsp/>
+                <p:inputText
+                    value="#{personManagedBean.contactNumber}" styleClass="w-20rem" style="height: 25px" placeholder = "Enter Contact" required="true" requiredMessage="Error: Please enter contact"/>
+                <br> </br>
+
+
+                <h:commandButton value="Create Account" 
+                                 actionListener="#{personManagedBean.addPerson}" 
+                                 action ="index.xhtml?faces-redirect=true "
+                                 style = "background-color: orange; height: auto; text-align: center" styleClass="w-10rem"/>
+                <br> </br>
+                <p:messages id="messages" showDetail="false">
+                    <p:autoUpdate/>
+                </p:messages>
+            </h:form>
+        </div>
+    </ui:define>
+
+    <ui:define name="bottom">
+        bottom
+    </ui:define>
+
+</ui:composition>

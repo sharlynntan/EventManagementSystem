@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/default.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Login Page
+    </ui:define>
+
+
+    <ui:define name="content">
+        <style>
+            button:hover {
+                opacity: 0.8;
+            }
+        </style>
+        <div class="center">
+            <div class="registerAccount" style="text-align: right" >
+                <a href="register.xhtml"><p:button value ="Register New Account" styleClass="w-12rem" style = "background-color: black;"/>  </a>
+                <br> </br>
+            </div>
+            <h2>Login Form</h2>
+            <img src="images/logo.jpeg" style ="width:250px; "/>
+            <br> </br>
+
+            <h:form> 
+                <label for="email"><b>Email: </b></label> <nbsp/>
+                <p:inputText
+                    value="#{authenticationManagedBean.email}" styleClass="w-18rem" style="height: 25px" placeholder = "Enter Email"/><br/>
+                <br> </br>
+                <label for="psw"><b>Password: </b></label> <nbsp/> 
+                <p:password id="toggle" value="#{authenticationManagedBean.password}" toggleMask="true" redisplay="true" styleClass="w-16rem" style="height: 25px" placeholder = "Enter Password"/>
+                <!--                <password id="nonFeedback"
+                                          value="#{authenticationManagedBean.password}" styleClass="w-16rem" style="height: 25px" placeholder = "Enter Username"/><br/>-->
+                <br> </br> 
+
+                <p:commandButton value="Login" 
+                                 action="#{authenticationManagedBean.login}" style = "background-color: orange; height: auto; text-align: center" styleClass="w-8rem"/>
+                <a href="index.xhtml"> <p:button value ="Cancel" styleClass="w-8rem" style = "background-color: grey"/> </a>
+                <!--<button type="button" style="width:120px" >Cancel</button> </a>-->
+                <br> </br>   
+                <div class="container" style="background-color:#f1f1f1">
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                </div>
+            </h:form>
+        </div>
+
+    </ui:define>
+
+
+</ui:composition>

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <h:outputStylesheet name="css/default.css"/>
+        <h:outputStylesheet name="css/cssLayout.css"/>
+        <title><ui:insert name="title">Title</ui:insert></title>
+    </h:head>
+
+    <h:body>
+        <div id="top">
+            <ui:insert name="top">
+                <div class="card">
+                    <h:form>
+                        <p:growl id="messages"/>
+                        <p:menubar>
+                            <p:menuitem>
+                                <a href="index.xhtml"><img src="images/testing.png" alt = "logo" class="logo" style="width: 150px; height: 50px; margin-bottom: -30px; margin-top: -20px"/></a>
+                            </p:menuitem>
+
+                            <p:menuitem>
+                                <i class="pi pi-fw pi-search" style =" margin-right: 10px; margin-left: 10px; font-size:1.25rem"/>
+                                <p:inputText placeholder="Search Events" styleClass="w-24rem" style="font-size:1.25rem"/>
+                            </p:menuitem>
+
+                            <f:facet name="options">
+                                <a href= "login.xhtml"><p:button value="Login" icon="pi pi-fw pi-user" styleClass="ui-button-info" style="margin-top: 10px; background-color: black"/> </a>                            
+                            </f:facet>
+                        </p:menubar>
+                    </h:form>
+
+                </div>
+
+
+            </ui:insert>
+        </div>
+
+
+        <div id="content" class="center_content">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+
+        <div id="bottom">
+            <ui:insert name="bottom">
+                <div class="card">
+
+                    &copy;EventSystem 2024
+
+                </div>
+            </ui:insert>
+        </div>
+
+    </h:body>
+
+</html>

@@ -1,0 +1,35 @@
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# BlueJ file
+*.ctxt
+
+# Mobile Tools for Java
+.mtj.tmp/
+
+# Packages Files
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# User Defined
+nbproject/private/
+build/
+dist/
+
+EventManagementSystem-ejb/nbproject/private/
+EventManagementSystem-ejb/build/
+EventManagementSystem-ejb/dist/
+
+EventManagementSystem-war/nbproject/private/
+EventManagementSystem-war/build/
+EventManagementSystem-war/dist/
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+
