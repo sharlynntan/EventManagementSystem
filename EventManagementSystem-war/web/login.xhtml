@@ -10,44 +10,55 @@
         Login Page
     </ui:define>
 
-
     <ui:define name="content">
         <style>
             button:hover {
                 opacity: 0.8;
             }
         </style>
-        <div class="center">
-            <div class="registerAccount" style="text-align: right" >
-                <a href="register.xhtml"><p:button value ="Register New Account" styleClass="w-12rem" style = "background-color: black;"/>  </a>
-                <br> </br>
-            </div>
-            <h2>Login Form</h2>
-            <img src="images/logo.jpeg" style ="width:250px; "/>
-            <br> </br>
+        <div class="card">
 
             <h:form> 
-                <label for="email"><b>Email: </b></label> <nbsp/>
-                <p:inputText
-                    value="#{authenticationManagedBean.email}" styleClass="w-18rem" style="height: 25px" placeholder = "Enter Email"/><br/>
-                <br> </br>
-                <label for="psw"><b>Password: </b></label> <nbsp/> 
-                <p:password id="toggle" value="#{authenticationManagedBean.password}" toggleMask="true" redisplay="true" styleClass="w-16rem" style="height: 25px" placeholder = "Enter Password"/>
-                <!--                <password id="nonFeedback"
-                                          value="#{authenticationManagedBean.password}" styleClass="w-16rem" style="height: 25px" placeholder = "Enter Username"/><br/>-->
-                <br> </br> 
+                <div class="grid">
 
-                <p:commandButton value="Login" 
-                                 action="#{authenticationManagedBean.login}" style = "background-color: orange; height: auto; text-align: center" styleClass="w-8rem"/>
-                <a href="index.xhtml"> <p:button value ="Cancel" styleClass="w-8rem" style = "background-color: grey"/> </a>
-                <!--<button type="button" style="width:120px" >Cancel</button> </a>-->
-                <br> </br>   
-                <div class="container" style="background-color:#f1f1f1">
-                    <span class="psw">Forgot <a href="#">password?</a></span>
+                    <div class="col-5 flex align-items-center justify-content-center">
+                        <div class="ui-fluid">
+                            <h2>Login Page</h2>
+                            <div class="center">
+                                <img src="images/updatedLogo.png" style ="width:150px; "/>
+                            </div>
+                            <div class="field">
+                                <p:outputLabel value="Email" for="email"/>
+                                <p:inputText id="email" type="text" value="#{authenticationManagedBean.email}" placeholder = "Enter Email" />
+                            </div>
+                            <div class="field">
+                                <p:outputLabel value="Password" for="password" />
+                                <p:password id="password" styleClass="w-18rem" toggleMask="true" redisplay="true" placeholder = "Enter Password" 
+                                            value="#{authenticationManagedBean.password}"/>
+                            </div>
+                            <p:commandButton value="Login" action="#{authenticationManagedBean.login}" styleClass="w-18rem" icon ="pi pi-sign-in"
+                                             style = "background-color: black; color: white; border-radius: 12px; height: 42; text-align: center"/>
+                            <!--                            <b>No Account?</b> <br> </br>-->
+                            <br> </br>
+                            <p:outputLabel> No Account? </p:outputLabel>
+                            <a href="registerPage.xhtml"><p:button styleClass="my-2" value="Sign Up" icon="pi pi-user-plus" class="ui-button-success"
+                                                                   style = "border-radius: 12px; height: 42; text-align: center"/></a>
+                        </div>
+                    </div>
+
+                    <div class="col-2">
+                        <p:divider layout="vertical">
+                            <!--<b>OR</b>-->
+                        </p:divider>
+                    </div>
+                    <div class="col-5 flex align-items-center justify-content-center">
+                        <!--    <img src="images/logo.jpeg" style ="width:250px; "/> <br> </br>-->
+                        <!--<p:commandButton type="button" value="Sign Up" icon="pi pi-user-plus" class="ui-button-success" />-->
+                        <h2>Upcoming Events</h2>
+                    </div>
                 </div>
             </h:form>
         </div>
-
     </ui:define>
 
 

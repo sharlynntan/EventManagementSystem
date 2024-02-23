@@ -9,23 +9,38 @@ import java.io.Serializable;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.ejb.EJB;
+import javax.faces.annotation.ManagedProperty;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 
-import session.PersonSessionBeanLocal;
+import ejb.session.stateless.PersonSessionBeanLocal;
 
 /**
  *
  * @author Sharlynn
  */
 @Named(value = "personManagedBean")
-@RequestScoped
-public class PersonManagedBean {
+@ViewScoped
+public class PersonManagedBean implements Serializable{
 
     @EJB
     private PersonSessionBeanLocal personSessionBeanLocal;
+    
+//    @ManagedProperty(value = "#{authenticationManagedBean}")
+    @Inject
+    private AuthenticationManagedBean authenticationManagedBean;
+
+    public AuthenticationManagedBean getAuthenticationManagedBean() {
+        return authenticationManagedBean;
+    }
+
+    public void setAuthenticationManagedBean(AuthenticationManagedBean authenticationManagedBean) {
+        this.authenticationManagedBean = authenticationManagedBean;
+    }
 
     private String firstName;
 
@@ -40,6 +55,10 @@ public class PersonManagedBean {
     private String confirmedPassword;
 
     private boolean passwordChecked = false;
+    
+    private Person selectedPerson;
+
+    private Long pId; 
 
     public PersonManagedBean() {
     }
@@ -62,9 +81,45 @@ public class PersonManagedBean {
         p.setContactNumber(contactNumber);
         p.setEmail(email);
         p.setPassword(password);
-        System.out.println("did it come here");
         personSessionBeanLocal.createPerson(p);
 
+    }
+    
+    public void loadSelectedPerson() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            pId = authenticationManagedBean.getUserId();
+//            System.out.println("testting"  + pId);
+            this.selectedPerson = personSessionBeanLocal.getPerson(pId);
+            firstName = selectedPerson.getFirstName();
+            lastName = selectedPerson.getLastName();
+            contactNumber = selectedPerson.getContactNumber();
+            email = selectedPerson.getEmail();
+            
+            
+        } catch (Exception ex) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load customer"));
+        }
+    }
+    
+    public void updatePerson() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        selectedPerson.setFirstName(firstName);
+        selectedPerson.setLastName(lastName);
+        selectedPerson.setContactNumber(contactNumber);
+        try {
+            personSessionBeanLocal.updatePerson(selectedPerson);
+
+        } catch (Exception ex) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to update customer"));
+        }
+        
+        loadSelectedPerson();
+        
+        context.addMessage(null, new FacesMessage("Success",
+                "Successfully updated customer"));
+        
+         
     }
 
     public String getFirstName() {
@@ -121,6 +176,22 @@ public class PersonManagedBean {
 
     public void setPasswordChecked(boolean passwordChecked) {
         this.passwordChecked = passwordChecked;
+    }
+    
+    public Person getSelectedPerson() {
+        return selectedPerson;
+    }
+
+    public void setSelectedPerson(Person selectedPerson) {
+        this.selectedPerson = selectedPerson;
+    }
+    
+     public Long getpId() {
+        return pId;
+    }
+
+    public void setpId(Long pId) {
+        this.pId = pId;
     }
 
 }

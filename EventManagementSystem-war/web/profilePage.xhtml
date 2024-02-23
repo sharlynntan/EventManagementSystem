@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/default.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <ui:define name="title">
+        View Profile
+    </ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="pId" value="#{personManagedBean.pId}" />
+            <h:outputText value="testing" />
+            <f:event type="preRenderView" 
+                     listener="#{personManagedBean.loadSelectedPerson}"/>
+        </f:metadata>
+        <h:form>
+            <p:growl id="growl" showDetail="true" sticky="true" />
+            <div class="card">
+
+
+                <h2 style="margin-top:0">View Profile</h2>
+                <p:commandButton styleClass="my-2" value="Edit Profile" icon="pi pi-sliders-h" class="ui-button-success"
+                                 style = "border-radius: 12px; height: 42; text-align: center; float: right; background-color: black; color: white;" update="personDetails" oncomplete="PF('customerDialog').show()"/>
+
+                <p:panelGrid columns="2" id = "panel">
+                    <f:facet name="header">
+                        <img src="images/defaultProfilePage.jpg" style ="width:450px; "/>
+                    </f:facet>
+
+
+                    <h:outputText value="First Name:"/>
+                    <h:outputText id="firstname" value="#{personManagedBean.firstName}" />
+
+                    <h:outputText value="Last Name:"/>
+                    <h:outputText id="lastName" value="#{personManagedBean.lastName}"/>
+
+                    <h:outputText value="Email: "/>
+                    <h:outputText id="email" value ="#{personManagedBean.email}"/>
+
+                    <h:outputText value="Contact Number"/>
+                    <h:outputText id="contactNumber" value="#{personManagedBean.contactNumber}"/>
+
+
+
+                </p:panelGrid>
+            </div>
+
+
+
+            <p:dialog header="Person Details" widgetVar="customerDialog" 
+                      modal="false" showEffect="fade" hideEffect="fade" resizable="true" height="350" width="700">
+                <p:ajax event="close" update="panel"/>
+
+                <p:outputPanel id="personDetails">
+                    <p:panelGrid columns="2" rendered="#{not empty 
+                                                         personManagedBean.selectedPerson}">
+                        <h:outputText value="First Name" />
+                        <h:panelGroup>
+                            <p:inputText id="firstName1" 
+                                         value="#{personManagedBean.firstName}"
+                                         placeholder="first name" />
+                            <p:message for="firstName1" />
+                        </h:panelGroup>
+
+                        <h:outputText value="Last Name" />
+                        <h:panelGroup>
+                            <p:inputText id="lastName1" 
+                                         value="#{personManagedBean.lastName}"
+                                         placeholder="last name" />
+                            <p:message for="lastName1" />
+                        </h:panelGroup>
+
+                        <h:outputText value="Email" />
+                        <h:panelGroup>
+                            <h:outputText value="#{personManagedBean.email}" />
+                        </h:panelGroup>
+
+                        <h:outputText value="Contact Number" />
+                        <h:panelGroup>
+                            <p:inputText id="contactNumber1" 
+                                         value="#{personManagedBean.contactNumber}"
+                                         placeholder="contact number" />
+                            <p:message for="contactNumber1" />
+                        </h:panelGroup>
+
+                    </p:panelGrid>
+                </p:outputPanel>
+                <br> </br>
+                <p:commandButton value="Save Profile"  update="growl" action="#{personManagedBean.updatePerson}" styleClass="w-12rem" icon ="pi pi-sign-in"
+                                 style = "background-color: black; color: white; border-radius: 12px; height: 42; text-align: center; left: 35%" />
+
+            </p:dialog>
+        </h:form>
+
+
+    </ui:define>
+
+
+</ui:composition>

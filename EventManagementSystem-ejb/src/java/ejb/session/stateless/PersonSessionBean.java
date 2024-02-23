@@ -2,10 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/J2EE/EJB30/StatelessEjbClass.java to edit this template
  */
-package session;
+package ejb.session.stateless;
 
 import entity.Person;
-import exception.NoResultException;
+import util.exception.NoResultException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,6 +31,18 @@ public class PersonSessionBean implements PersonSessionBeanLocal {
         }
 
     }
+    
+    public Person getPerson(String email) throws NoResultException {
+        Query query = em.createQuery("SELECT p FROM Person p WHERE p.email = :email");
+        query.setParameter("email", email);
+        try {
+            return (Person) query.getSingleResult();
+        } catch (Exception ex) {
+            throw new NoResultException("Email cannot be found!!");
+        }
+        
+        
+    }
 
     public void createPerson(Person p) {
         try {
@@ -46,6 +58,7 @@ public class PersonSessionBean implements PersonSessionBeanLocal {
             Person personToUpdate = getPerson(p.getId());
             if (personToUpdate != null) {
                 personToUpdate.setFirstName(p.getFirstName());
+                personToUpdate.setLastName(p.getLastName());
                 personToUpdate.setContactNumber(p.getContactNumber());
                 personToUpdate.setEmail(p.getEmail());
                 // to make set person to a seperate method

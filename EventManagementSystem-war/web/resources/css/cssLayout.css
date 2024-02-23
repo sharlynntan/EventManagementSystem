@@ -9,7 +9,9 @@
 
 #bottom {
     position: relative;
-    background-color: #dddddd;
+    /*background-color:*/ 
+    background-color:rgba(0,0,0,0.1);
+    color: white;
     padding: 5px;
     margin: 10px 0px 0px 0px;
     text-align: center;
@@ -60,7 +62,7 @@
 }
 
 .center {
-    border: 2px solid;
+    /*border: 2px solid;*/
     margin: auto;
     width: 60%;
     padding: 10px;

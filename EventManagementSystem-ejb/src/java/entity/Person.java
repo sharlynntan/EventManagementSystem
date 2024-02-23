@@ -5,10 +5,15 @@
 package entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -32,9 +37,22 @@ public class Person implements Serializable {
 
     private String password;
 
+    @OneToMany (mappedBy = "organiser", cascade = CascadeType.ALL)
+    private List<Event> listOfEvent = new ArrayList<Event>();
+
     // private String imagePath;
     public Person() {
     }
+
+    public Person(String firstName, String lastName, String contactNumber, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.contactNumber = contactNumber;
+        this.email = email;
+        this.password = password;
+    }
+    
+    
 
     public String getFirstName() {
         return firstName;
@@ -82,6 +100,15 @@ public class Person implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    @XmlTransient
+    public List<Event> getListOfEvent() {
+        return listOfEvent;
+    }
+
+    public void setListOfEvent(List<Event> listOfEvent) {
+        this.listOfEvent = listOfEvent;
     }
 
     @Override

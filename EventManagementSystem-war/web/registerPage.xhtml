@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./layout/default.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="title">
+        Registration Page
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form>
+            <div class = "center">
+                <h2>Create New Account</h2>
+                <img src="images/updatedLogo.png" style ="width:250px; "/>
+            </div>
+            <div class="formgrid grid mx-8">
+                <div class="field col-12 md:col-6">
+                    <p:outputLabel  for="firstname" value="First Name" />
+                    <p:inputText id="firstname" type="text"
+                                 value="#{personManagedBean.firstName}"  placeholder = "Enter First Name"
+                                 required="true" requiredMessage="Error: Please enter name"
+                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p:outputLabel  for="lastname" value="Last Name" />
+                    <p:inputText id="lastname" type="text" 
+                                 value="#{personManagedBean.lastName}" placeholder = "Enter Last Name" 
+                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p:outputLabel  for="email" value="Email" />
+                    <p:inputText id="email" type="text" 
+                                 value="#{personManagedBean.email}" placeholder = "Enter Email" 
+                                 required="true" requiredMessage="Error: Please enter email"
+                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p:outputLabel  for="contactnumber" value="Contact Number"/>
+                    <p:inputText id="contactnumber" type="text" 
+                                 value="#{personManagedBean.contactNumber}" placeholder = "Enter Contact" 
+                                 class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p:outputLabel  for="pwd1" value="Password" />
+                    <p:password id="pwd1" 
+                                value="#{personManagedBean.password}" match="pwd2" placeholder = "Enter Password"
+                                required="true" 
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                </div>
+                <div class="field col-12 md:col-6">
+                    <p:outputLabel  for="pwd2" value="Confirmed Password" />
+                    <p:password id="pwd2" 
+                                value="#{personManagedBean.confirmedPassword}" required="true" placeholder = "Confirm Password"
+                                class="text-base text-color surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                </div>
+            </div>
+            <div class= "center">
+                <h:commandButton value="Create Account" 
+                                 actionListener="#{personManagedBean.addPerson}" 
+                                 action ="index.xhtml?faces-redirect=true "
+                                 style = "background-color: black;  text-align: center; color: white; height: 42;
+                                 border-radius: 12px;border: none; padding: 15px 32px;" styleClass="w-10rem"/>
+                <a href="registerPage.xhtml"><p:button value="Reset" 
+                                                       style = "background-color: lightgray;  border-radius: 12px; height: 42; text-align: center" styleClass="w-10rem"/></a>
+            </div>
+            <p:messages id="messages" showDetail="true">
+                <p:autoUpdate/>
+            </p:messages>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

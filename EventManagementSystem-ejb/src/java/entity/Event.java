@@ -4,12 +4,22 @@
  */
 package entity;
 
+import Class.Address;
+import util.enumeration.eventCategory;
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 /**
  *
@@ -22,20 +32,51 @@ public class Event implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     private String title;
-    
+
     private Date date;
-    
-    
-    // to change to address class
-    private String location;
-    
+
+    @Embedded
+    @AttributeOverrides(value = {
+        @AttributeOverride(name = "street1", column = @Column(name = "house_number")),
+        @AttributeOverride(name = "street2", column = @Column(name = "street")),
+        @AttributeOverride(name = "city", column = @Column(name = "city")),
+        @AttributeOverride(name = "postalCode", column = @Column(name = "postalCode"))
+
+    })
+    private Address location;
+
     private String description;
-    
+
     private Date deadline;
 
+    private int maxPax;
+
+    @Enumerated(EnumType.STRING)
+    private eventCategory eventCategory;
+
+    @ManyToOne
+    private Person organiser;
     public Event() {
+    }
+
+    public Event(String title, Date date, Address location, String description, Date deadline, eventCategory eventCategory, Person organiser, int maxPax) {
+        this.title = title;
+        this.date = date;
+        this.location = location;
+        this.description = description;
+        this.deadline = deadline;
+        this.eventCategory = eventCategory;
+        this.organiser = organiser;
+        this.maxPax = maxPax;
+    }
+    public int getMaxPax() {
+        return maxPax;
+    }
+
+    public void setMaxPax(int maxPax) {
+        this.maxPax = maxPax;
     }
 
     public String getTitle() {
@@ -54,11 +95,11 @@ public class Event implements Serializable {
         this.date = date;
     }
 
-    public String getLocation() {
+    public Address getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Address location) {
         this.location = location;
     }
 
@@ -77,9 +118,22 @@ public class Event implements Serializable {
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
-    
-    
 
+    public eventCategory getEventCategory() {
+        return eventCategory;
+    }
+
+    public void setEventCategory(eventCategory evenCategory) {
+        this.eventCategory = evenCategory;
+    }
+
+    public Person getOrganiser() {
+        return organiser;
+    }
+
+    public void setOrganiser(Person organiser) {
+        this.organiser = organiser;
+    }
     public Long getId() {
         return id;
     }
@@ -112,5 +166,5 @@ public class Event implements Serializable {
     public String toString() {
         return "entity.Event[ id=" + id + " ]";
     }
-    
+
 }

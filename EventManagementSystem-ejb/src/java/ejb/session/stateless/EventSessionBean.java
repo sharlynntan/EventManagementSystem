@@ -1,0 +1,75 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/J2EE/EJB30/StatelessEjbClass.java to edit this template
+ */
+package ejb.session.stateless;
+
+import entity.Event;
+import util.enumeration.eventCategory;
+import util.exception.NoResultException;
+import java.util.List;
+import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
+/**
+ *
+ * @author Sharlynn
+ */
+@Stateless
+public class EventSessionBean implements EventSessionBeanLocal {
+
+    @PersistenceContext(unitName = "EventManagementSystem-ejbPU")
+    private EntityManager em;
+
+    public Event getEvent(Long id) throws NoResultException {
+        Event event = em.find(Event.class, id);
+        if (event != null) {
+            return event;
+        } else {
+            throw new NoResultException("Event cannot be found!");
+        }
+
+    }
+
+    public List<Event> getAllEvents() {
+        Query query = em.createQuery("SELECT e FROM Event e");
+        return query.getResultList();
+    }
+
+    public void createEvent(Event e) {
+        try {
+            em.persist(e);
+            em.flush();
+        } catch (Exception ex) {
+            throw ex;
+        }
+
+    }
+
+    public void updateEvent(Event e) throws NoResultException {
+        try {
+            Event eventToUpdate = getEvent(e.getId());
+            eventToUpdate.setDate(e.getDate());
+            eventToUpdate.setDeadline(e.getDeadline());
+            eventToUpdate.setDescription(e.getDescription());
+            eventToUpdate.setTitle(e.getTitle());
+            eventToUpdate.setEventCategory(e.getEventCategory());
+            eventToUpdate.setLocation(e.getLocation());
+
+        } catch (NoResultException ex) {
+            throw ex;
+        }
+    }
+
+    public void deleteEvent(Long id) throws NoResultException {
+        try {
+            Event eventToDelete = getEvent(id);
+            em.remove(eventToDelete);
+        } catch (NoResultException ex) {
+            throw ex;
+        }
+    }
+
+}

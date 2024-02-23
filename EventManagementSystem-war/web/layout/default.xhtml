@@ -18,6 +18,8 @@
         <div id="top">
             <ui:insert name="top">
                 <div class="card">
+                    #{authenticationManagedBean.loggedIn}
+                    ...
                     <h:form>
                         <p:growl id="messages"/>
                         <p:menubar>
@@ -31,8 +33,26 @@
                             </p:menuitem>
 
                             <f:facet name="options">
-                                <a href= "login.xhtml"><p:button value="Login" icon="pi pi-fw pi-user" styleClass="ui-button-info" style="margin-top: 10px; background-color: black"/> </a>                            
+                                <ui:fragment rendered="#{!authenticationManagedBean.loggedIn}">
+                                    <a href= "login.xhtml"><p:button value="Login" icon="pi pi-fw pi-user" styleClass="ui-button-info" style="margin-top: 10px; background-color: black"/> </a>
+                                    <a href= "registerPage.xhtml"><p:button value="Sign Up" icon="pi pi-fw pi-user" styleClass="ui-button-info" style="margin-top: 10px; background-color: whitesmoke; color:black"/> </a> 
+                                </ui:fragment>
+
                             </f:facet>
+
+
+                            <p:submenu label="Options" icon="pi pi-fw pi-bars" style ="float: right; top: 12px;" rendered="#{authenticationManagedBean.loggedIn}" >
+                                <p:menuitem value="View Profile" icon="pi pi-fw pi-user" url=  "profilePage.xhtml"/>
+                                <p:submenu  label="Manage Events" icon="pi pi-fw pi-calendar">
+                                    <p:menuitem value="My Event" icon="pi pi-fw pi-users" url = "listingManagement.xhtml"/>
+                                    <p:menuitem value="Registered Event" icon="pi pi-fw pi-calendar-plus"/>
+                                </p:submenu>
+                                <p:menuitem value="Logout" icon="pi pi-fw pi-sign-out" action="#{authenticationManagedBean.logout}"/>
+
+                            </p:submenu>
+
+
+
                         </p:menubar>
                     </h:form>
 
