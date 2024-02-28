@@ -4,7 +4,12 @@
  */
 package ejb.session.stateless;
 
+import Class.PersonAttendance;
+import java.util.List;
 import javax.ejb.Stateless;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -13,6 +18,21 @@ import javax.ejb.Stateless;
 @Stateless
 public class EventAttendance implements EventAttendanceLocal {
 
-    // Add business logic below. (Right-click in editor and choose
-    // "Insert Code > Add Business Method")
+    @PersistenceContext(unitName = "EventManagementSystem-ejbPU")
+    private EntityManager em;
+    
+    
+    public List<PersonAttendance> getPersonAttendanceList(Long id) {
+        Query query = em.createQuery("SELECT e.attendanceList FROM Event e WHERE e.id = :id");
+        query.setParameter("id", id);
+        return query.getResultList();
+    }
+    
+    public void setAttendance() {
+        
+    }
+
+    
+
+    
 }

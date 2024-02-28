@@ -5,9 +5,13 @@
 package entity;
 
 import Class.Address;
+import Class.PersonAttendance;
 import util.enumeration.eventCategory;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -20,6 +24,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Future;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 /**
  *
@@ -35,7 +44,17 @@ public class Event implements Serializable {
 
     private String title;
 
+    // String dateFormat = "dd/MM/yyyy HH:mm";
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
+    @NotNull
+    @Future
     private Date date;
+
+    @Column(nullable = false)
+    @NotNull
+    @Min(1)
+    private int estimateDurationMins;
 
     @Embedded
     @AttributeOverrides(value = {
@@ -49,19 +68,30 @@ public class Event implements Serializable {
 
     private String description;
 
+    // String dateFormat = "dd/MM/yyyy HH:mm";
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
+    @NotNull
+    @Future
     private Date deadline;
 
+    @NotNull
     private int maxPax;
+
+    private List<PersonAttendance> attendanceList;
 
     @Enumerated(EnumType.STRING)
     private eventCategory eventCategory;
 
+    @NotNull
     @ManyToOne
     private Person organiser;
+
     public Event() {
     }
 
-    public Event(String title, Date date, Address location, String description, Date deadline, eventCategory eventCategory, Person organiser, int maxPax) {
+    public Event(String title, Date date, Address location, String description, Date deadline, eventCategory eventCategory, Person organiser, int maxPax, int min) {
+        attendanceList = new ArrayList<>();
         this.title = title;
         this.date = date;
         this.location = location;
@@ -70,7 +100,34 @@ public class Event implements Serializable {
         this.eventCategory = eventCategory;
         this.organiser = organiser;
         this.maxPax = maxPax;
+        this.estimateDurationMins = min;
     }
+    
+     public Date getEventEndTime() {
+        GregorianCalendar endTimeCalendar = new GregorianCalendar();
+        endTimeCalendar.setTime(date);
+        endTimeCalendar.add(GregorianCalendar.MINUTE, getEstimateDurationMins());
+        return endTimeCalendar.getTime();
+    }
+
+    public int getEstimateDurationMins() {
+        return estimateDurationMins;
+    }
+
+    public void setEstimateDurationMins(int estimateDurationMins) {
+        this.estimateDurationMins = estimateDurationMins;
+    }
+
+    public List<PersonAttendance> getAttendanceList() {
+        return attendanceList;
+    }
+
+    public void setAttendanceList(List<PersonAttendance> attendanceList) {
+        this.attendanceList = attendanceList;
+    }
+     
+     
+
     public int getMaxPax() {
         return maxPax;
     }
@@ -134,6 +191,7 @@ public class Event implements Serializable {
     public void setOrganiser(Person organiser) {
         this.organiser = organiser;
     }
+
     public Long getId() {
         return id;
     }
@@ -167,4 +225,10 @@ public class Event implements Serializable {
         return "entity.Event[ id=" + id + " ]";
     }
 
+//    public Date getArrivalDateTime() {
+//        GregorianCalendar arrivalDateTimeCalendar = new GregorianCalendar();
+//        arrivalDateTimeCalendar.setTime(departureDateTime);
+//        arrivalDateTimeCalendar.add(GregorianCalendar.MINUTE, getEstimateDurationMins());
+//        return arrivalDateTimeCalendar.getTime();
+//    }
 }

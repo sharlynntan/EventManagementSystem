@@ -11,6 +11,8 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import ejb.session.stateless.PersonSessionBeanLocal;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -35,7 +37,7 @@ public class AuthenticationManagedBean implements Serializable {
     }
 
     public String login() {
-        System.out.println("Triggering login");
+        FacesContext context = FacesContext.getCurrentInstance();
         try {
             Person p = personSessionBeanLocal.getPerson(email);
             System.out.println(p.getPassword());
@@ -48,6 +50,7 @@ public class AuthenticationManagedBean implements Serializable {
                 password = null;
                 userId = -1L;
                 loggedIn = false;
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to login"));
                 return "login.xhtml";
             }
 
@@ -56,6 +59,7 @@ public class AuthenticationManagedBean implements Serializable {
             password = null;
             userId = -1L;
             loggedIn = false;
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to login"));
             return "login.xhtml";
         }
     }

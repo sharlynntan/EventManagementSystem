@@ -14,7 +14,7 @@ import java.io.Serializable;
  */
 public class PersonAttendance implements Serializable{
     private Person person;
-    private boolean attendance;
+    private boolean attendance = false;
 
     public PersonAttendance() {
     }

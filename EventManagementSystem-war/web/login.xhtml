@@ -19,6 +19,7 @@
         <div class="card">
 
             <h:form> 
+                <p:growl id="growl" showDetail="true" sticky="true" />
                 <div class="grid">
 
                     <div class="col-5 flex align-items-center justify-content-center">
@@ -29,15 +30,18 @@
                             </div>
                             <div class="field">
                                 <p:outputLabel value="Email" for="email"/>
-                                <p:inputText id="email" type="text" value="#{authenticationManagedBean.email}" placeholder = "Enter Email" />
+                                <p:inputText id="email" type="text" value="#{authenticationManagedBean.email}" placeholder = "Enter Email" 
+                                             required ="true" requiredMessage = "Please enter email"/>
                             </div>
                             <div class="field">
                                 <p:outputLabel value="Password" for="password" />
                                 <p:password id="password" styleClass="w-18rem" toggleMask="true" redisplay="true" placeholder = "Enter Password" 
-                                            value="#{authenticationManagedBean.password}"/>
+                                            value="#{authenticationManagedBean.password}" required ="true" requiredMessage = "Please enter password"/>
                             </div>
                             <p:commandButton value="Login" action="#{authenticationManagedBean.login}" styleClass="w-18rem" icon ="pi pi-sign-in"
-                                             style = "background-color: black; color: white; border-radius: 12px; height: 42; text-align: center"/>
+                                             style = "background-color: black; color: white; border-radius: 12px; height: 42; text-align: center"
+                                             update="growl"/>
+
                             <!--                            <b>No Account?</b> <br> </br>-->
                             <br> </br>
                             <p:outputLabel> No Account? </p:outputLabel>
@@ -57,6 +61,9 @@
                         <h2>Upcoming Events</h2>
                     </div>
                 </div>
+                <p:messages id="messages" showDetail="true">
+                    <p:autoUpdate/>
+                </p:messages>
             </h:form>
         </div>
     </ui:define>

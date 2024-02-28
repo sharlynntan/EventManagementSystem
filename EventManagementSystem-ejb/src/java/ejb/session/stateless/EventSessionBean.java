@@ -45,6 +45,7 @@ public class EventSessionBean implements EventSessionBeanLocal {
         } catch (Exception ex) {
             throw ex;
         }
+        
 
     }
 
@@ -70,6 +71,12 @@ public class EventSessionBean implements EventSessionBeanLocal {
         } catch (NoResultException ex) {
             throw ex;
         }
+    }
+    
+    public List<Event> getUserCreatedEvent(long pid) {
+        Query query = em.createQuery("SELECT e FROM Event e WHERE e.organiser.id = :pid");
+        query.setParameter("pid", pid);
+        return query.getResultList();
     }
 
 }

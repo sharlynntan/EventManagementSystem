@@ -3,14 +3,80 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./layout/default.xhtml"
-                xmlns:p="http://primefaces.org/ui">
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <ui:define name="title">
         Main Menu
     </ui:define>
 
     <ui:define name="content">
+        <style>
+            #product-grid-item-bottom:after {
+                content:'';
+                display:block; /* or whatever else than inline */
+                clear:both;
+            }
+        </style>
         <p:button value="#{authenticationManagedBean.userId .toString()}"/>
+
+        <div class="product card">
+            <h:form id="form">
+                <p:dataView var="event" value="#{eventManagedBean.getAllEvent()}" rows="12" paginator="true"
+                            paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                            gridIcon="pi pi-th-large" listIcon="pi pi-bars"
+                            layout="grid" gridRowStyleClass="lg:col-6 xl:col-4" flex="true">
+
+                    <p:dataViewGridItem>
+                        <div class="product-grid-item card border-1">
+                            <div class="product-grid-item-top "  style = "padding-top: 20px; padding-left: 20px">
+                                <div>
+                                    <i class="pi pi-tag product-category-icon"/>
+                                    <span class="event-category">#{event.eventCategory}</span>
+                                </div>
+                            </div>
+                            <div class="product-grid-item-content">
+                                <img src="images/defaultBanner.png" style ="width:500px; padding-left: 50px; padding-top: 10px"/> 
+                                <div class="event-title"> <center><h4>#{event.title}</h4></center></div>
+                                <div class="event-date"><center>#{event.date}</center></div>
+                                <div class="event-sign up" style="padding-top:10px; padding-bottom: 20px">
+                                    <center><p:button value="Sign up" icon="pi pi-chevron-right"/></center>
+
+                                </div>
+                            </div>
+                        </div>
+                    </p:dataViewGridItem>
+
+                    <p:dataViewListItem>
+                        <div class="product-list-item">
+                            <p:graphicImage name="demo/images/product/#{product.image}"/>
+                            <div class="product-list-detail">
+                                <div class="product-name">#{product.name}</div>
+                                <div class="product-description">#{product.description}</div>
+                                <p:rating readonly="true" value="#{product.rating}"/>
+                                <i class="pi pi-tag product-category-icon"/><span
+                                    class="product-category">#{product.category}</span>
+                            </div>
+                            <div class="product-list-action">
+                                <h:outputText value="#{product.price}" styleClass="product-price">
+                                    <f:convertNumber currencySymbol="$" type="currency"/>
+                                </h:outputText>
+                                <p:commandButton type="button"
+                                                 value="Add To Cart"
+                                                 icon="pi pi-shopping-cart"
+                                                 disabled="#{product.inventoryStatus == 'OUTOFSTOCK'}">
+                                </p:commandButton>
+                                <span class="product-badge status-#{product.inventoryStatus.name().toLowerCase()}">#{product.inventoryStatus.text}</span>
+                            </div>
+                        </div>
+                    </p:dataViewListItem>
+                </p:dataView>
+
+            </h:form>
+        </div>
+
+
     </ui:define>
 
 

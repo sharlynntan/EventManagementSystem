@@ -14,20 +14,33 @@ import javax.enterprise.context.RequestScoped;
 import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import ejb.session.stateless.EventSessionBeanLocal;
+import entity.Person;
+import java.io.Serializable;
+import java.util.List;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.faces.view.ViewScoped;
 
 /**
  *
  * @author Sharlynn
  */
 @Named(value = "eventManagedBean")
-@RequestScoped
-public class EventManagedBean {
+@ViewScoped
+public class EventManagedBean implements Serializable  {
 
     @EJB
     private EventSessionBeanLocal eventSessionBeanLocal;
 
     @Inject
     private PersonManagedBean personManagedBean;
+
+    @Inject
+    private AuthenticationManagedBean authenticationManagedBean;
+    
+    private Event selectedEvent;
+    
+    private List<Event> createdEventList;
 
     private String title;
 
@@ -49,25 +62,49 @@ public class EventManagedBean {
 
     public EventManagedBean() {
     }
+    
+    public List<Event> getAllEvent() {
+        return eventSessionBeanLocal.getAllEvents();
+    }
 
-    public void addEvent(ActionEvent ev) {
-        Event e = new Event();
-        e.setTitle(title);
-        e.setDate(eventDate);
-        e.setDeadline(deadline);
-        e.setDescription(description);
-        eventCategory enumtype = getEnumCategory();
-        e.setEventCategory(enumtype);
-        // Create Address
-        Address a = new Address(street1, street2, city, postalCode);
-//        e.setLocation(a);
-//        e.setOrganiser(personManagedBean.getSelectedPerson());
+    public void addEvent() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        try {
+            Event e = new Event();
+            e.setTitle(title);
+            e.setDate(eventDate);
+            e.setDeadline(deadline);
+            e.setDescription(description);
+            eventCategory enumtype = getEnumCategory();
+            e.setEventCategory(enumtype);
+            // Create Address
+            Address a = new Address(street1, street2, city, postalCode);
+            e.setLocation(a);
+            long pId = authenticationManagedBean.getUserId();
+            Person p = personManagedBean.getPersonWithId(pId);
+            e.setOrganiser(p);
+            eventSessionBeanLocal.createEvent(e);
+        } catch (Exception ex) {
+            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to add event"));
+        }
 
+        getUserCreatedEvent();
+
+        context.addMessage(null, new FacesMessage("Success",
+                "Successfully created event!"));
+
+    }
+
+    public List<Event> getUserCreatedEvent() {
+        long pId = authenticationManagedBean.getUserId();
+        System.out.println("hsjhdad" + pId);
+        createdEventList = eventSessionBeanLocal.getUserCreatedEvent(pId);
+        return createdEventList;
     }
 
     public eventCategory getEnumCategory() {
         eventCategory ec;
-        
+
         switch (eventCat) {
             case "Music":
                 ec = eventCategory.MUSIC;
@@ -171,6 +208,20 @@ public class EventManagedBean {
         this.eventCat = eventCat;
     }
     
+     public Event getSelectedEvent() {
+        return selectedEvent;
+    }
+
+    public void setSelectedEvent(Event selectedEvent) {
+        this.selectedEvent = selectedEvent;
+    }
     
+    public List<Event> getCreatedEventList() {
+        return createdEventList;
+    }
+
+    public void setCreatedEventList(List<Event> createdEventList) {
+        this.createdEventList = createdEventList;
+    }
 
 }

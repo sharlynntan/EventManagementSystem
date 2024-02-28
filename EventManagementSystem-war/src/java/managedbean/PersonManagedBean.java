@@ -121,6 +121,15 @@ public class PersonManagedBean implements Serializable{
         
          
     }
+    
+    public Person getPersonWithId(long id) throws Exception {
+        try {
+            return personSessionBeanLocal.getPerson(id);
+        } catch (Exception ex) {
+            throw ex;
+        }
+        
+    }
 
     public String getFirstName() {
         return firstName;

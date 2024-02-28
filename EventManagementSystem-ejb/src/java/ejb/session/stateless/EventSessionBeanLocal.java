@@ -25,5 +25,7 @@ public interface EventSessionBeanLocal {
     public void createEvent(Event e);
 
     public List<Event> getAllEvents();
+
+    public List<Event> getUserCreatedEvent(long pid);
     
 }
