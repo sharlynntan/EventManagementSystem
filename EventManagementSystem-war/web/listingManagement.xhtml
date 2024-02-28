@@ -54,19 +54,22 @@
 
 
                             </h:panelGrid>
+
                         </p:outputPanel>
 
-
-                        <p:commandButton icon="fa fa-fw fa-search"  value="#{event.title}" update=":form:info" ajax="false"
+                        <p:commandButton icon="fa fa-fw fa-search"  value="#{event.title}" update=":form:info"
                                          oncomplete="PF('infoDialog').show()" title="View">
                             <f:setPropertyActionListener value="#{event}"
                                                          target="#{eventManagedBean.selectedEvent}" />
                         </p:commandButton>
 
 
+
+
                     </h:panelGrid>
                 </p:dataViewListItem>
             </p:dataView>
+
 
 
             <!--Display Events Dialog-->
@@ -191,10 +194,11 @@
 
 
             </p:dialog>
-
-
-
         </h:form>
+
+
+
+
 
 
     </ui:define>

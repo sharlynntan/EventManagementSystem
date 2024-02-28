@@ -18,21 +18,21 @@
             <f:event type="preRenderView" 
                      listener="#{personManagedBean.loadSelectedPerson}"/>
         </f:metadata>
-        <h:form>
-            <p:growl id="growl" showDetail="true" sticky="true" />
-            <div class="card">
 
+        <p:growl id="growl" showDetail="true" sticky="true" />
+        <div class="card">
+            <h:form id = "main">
 
                 <h2 style="margin-top:0">View Profile</h2>
+                <p:commandButton styleClass="my-2" value="Upload Profile Picture" icon="pi pi-image" class="ui-button-success"
+                                 style = "border-radius: 12px; height: 42; text-align: center; float: right; background-color: black; color: white;" oncomplete="PF('pictureDialog').show()"/>
                 <p:commandButton styleClass="my-2" value="Edit Profile" icon="pi pi-sliders-h" class="ui-button-success"
-                                 style = "border-radius: 12px; height: 42; text-align: center; float: right; background-color: black; color: white;" update="personDetails" oncomplete="PF('customerDialog').show()"/>
+                                 style = "border-radius: 12px; height: 42; text-align: center; float: right; background-color: black; color: white;" oncomplete="PF('customerDialog').show()"/>
 
                 <p:panelGrid columns="2" id = "panel">
                     <f:facet name="header">
                         <img src="images/defaultProfilePage.jpg" style ="width:450px; "/>
                     </f:facet>
-
-
                     <h:outputText value="First Name:"/>
                     <h:outputText id="firstname" value="#{personManagedBean.firstName}" />
 
@@ -45,16 +45,37 @@
                     <h:outputText value="Contact Number"/>
                     <h:outputText id="contactNumber" value="#{personManagedBean.contactNumber}"/>
 
-
-
                 </p:panelGrid>
-            </div>
 
 
 
-            <p:dialog header="Person Details" widgetVar="customerDialog" 
-                      modal="false" showEffect="fade" hideEffect="fade" resizable="true" height="350" width="700">
-                <p:ajax event="close" update="panel"/>
+            </h:form>
+        </div>
+
+
+        <p:dialog header="Upload New Profile Picture" widgetVar="pictureDialog" 
+                  modal="false" showEffect="fade" hideEffect="fade" resizable="true" height="350" width="700">
+            <h:form enctype="multipart/form-data">
+                <!--<p:ajax event="close" update="panel"/>-->
+
+
+                <p:fileUpload value="#{imageBean.uploadedfile}" mode="simple" skinSimple="true"/>
+                <p:commandButton value="Submit" update="growl"  action="#{imageBean.upload}" styleClass="mt-3 ui-button-outlined block"/>
+
+
+
+                <img src="profilePicture/#{imageBean.filename}" />
+            </h:form>
+        </p:dialog>
+
+
+
+
+
+        <p:dialog header="Person Details" widgetVar="customerDialog" 
+                  modal="false" showEffect="fade" hideEffect="fade" resizable="true" height="350" width="700">
+            <!--<p:ajax event="close" update="panel"/>-->
+            <h:form id ="details">
 
                 <p:outputPanel id="personDetails">
                     <p:panelGrid columns="2" rendered="#{not empty 
@@ -94,8 +115,9 @@
                 <p:commandButton value="Save Profile"  update="growl" action="#{personManagedBean.updatePerson}" styleClass="w-12rem" icon ="pi pi-sign-in"
                                  style = "background-color: black; color: white; border-radius: 12px; height: 42; text-align: center; left: 35%" />
 
-            </p:dialog>
-        </h:form>
+            </h:form>
+        </p:dialog>
+
 
 
     </ui:define>
