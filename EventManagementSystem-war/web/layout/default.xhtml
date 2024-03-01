@@ -23,8 +23,12 @@
                     <h:form>
                         <p:growl id="messages"/>
                         <p:menubar>
-                            <p:menuitem>
+                            <p:menuitem rendered="#{!authenticationManagedBean.loggedIn}">
                                 <a href="index.xhtml"><img src="images/testing.png" alt = "logo" class="logo" style="width: 150px; height: 50px; margin-bottom: -30px; margin-top: -20px"/></a>
+                            </p:menuitem>
+
+                            <p:menuitem rendered="#{authenticationManagedBean.loggedIn}">
+                                <a href="mainMenu.xhtml"><img src="./../images/testing.png" alt = "logo" class="logo" style="width: 150px; height: 50px; margin-bottom: -30px; margin-top: -20px"/></a>
                             </p:menuitem>
 
                             <p:menuitem>

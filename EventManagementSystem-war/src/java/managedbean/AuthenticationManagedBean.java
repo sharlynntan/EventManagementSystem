@@ -44,7 +44,7 @@ public class AuthenticationManagedBean implements Serializable {
             if (p.getPassword().equals(password)) {
                 userId = p.getId();
                 loggedIn = true;
-                return "mainMenu.xhtml?faces-redirect=true";
+                return "secret/mainMenu.xhtml?faces-redirect=true";
             } else {
                 email = null;
                 password = null;

@@ -102,8 +102,8 @@ public class Event implements Serializable {
         this.maxPax = maxPax;
         this.estimateDurationMins = min;
     }
-    
-     public Date getEventEndTime() {
+
+    public Date getEventEndTime() {
         GregorianCalendar endTimeCalendar = new GregorianCalendar();
         endTimeCalendar.setTime(date);
         endTimeCalendar.add(GregorianCalendar.MINUTE, getEstimateDurationMins());
@@ -125,8 +125,6 @@ public class Event implements Serializable {
     public void setAttendanceList(List<PersonAttendance> attendanceList) {
         this.attendanceList = attendanceList;
     }
-     
-     
 
     public int getMaxPax() {
         return maxPax;

@@ -20,8 +20,8 @@ public class ImageBean {
 
     private UploadedFile uploadedfile;
     private String filename = "";
-    private ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-    private Map<String, String> requestParameterMap = externalContext.getRequestParameterMap();
+//    private ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+//    private Map<String, String> requestParameterMap = externalContext.getRequestParameterMap();
 
     public ImageBean() {
     }
@@ -30,7 +30,7 @@ public class ImageBean {
         ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
 
         //get the deployment path
-        String UPLOAD_DIRECTORY = ctx.getRealPath("/") + "resources/profilePicture/";
+        String UPLOAD_DIRECTORY = ctx.getRealPath("/") + "profilePicture/";
         System.out.println("#UPLOAD_DIRECTORY : " + UPLOAD_DIRECTORY);
 
         //debug purposes
@@ -40,7 +40,7 @@ public class ImageBean {
         //replace existing file
         Path path = Paths.get(UPLOAD_DIRECTORY + getFilename());
         InputStream bytes = uploadedfile.getInputStream();
-        System.out.println("adsafafafafsafsfafasfdsfafas" + bytes.toString());
+//        System.out.println("adsafafafafsafsfafasfdsfafas" + bytes.toString());
         Files.copy(bytes, path, StandardCopyOption.REPLACE_EXISTING);
         //        if (uploadedfile != null) {
         //            FacesMessage message = new FacesMessage("Successful", uploadedfile.getFileName() + " is uploaded.");

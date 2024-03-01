@@ -27,7 +27,7 @@ import javax.faces.view.ViewScoped;
  */
 @Named(value = "eventManagedBean")
 @ViewScoped
-public class EventManagedBean implements Serializable  {
+public class EventManagedBean implements Serializable {
 
     @EJB
     private EventSessionBeanLocal eventSessionBeanLocal;
@@ -37,11 +37,13 @@ public class EventManagedBean implements Serializable  {
 
     @Inject
     private AuthenticationManagedBean authenticationManagedBean;
-    
-    private Event selectedEvent;
-    
-    private List<Event> createdEventList;
 
+    @Inject
+    private CreatedEventManagedBean createdManagedBean;
+
+//    private Event selectedEvent;
+//
+//    private List<Event> createdEventList;
     private String title;
 
     private Date eventDate;
@@ -60,9 +62,13 @@ public class EventManagedBean implements Serializable  {
 
     private String eventCat;
 
+    private int maxPax;
+
+    private int estimateDurationMins;
+
     public EventManagedBean() {
     }
-    
+
     public List<Event> getAllEvent() {
         return eventSessionBeanLocal.getAllEvents();
     }
@@ -77,6 +83,8 @@ public class EventManagedBean implements Serializable  {
             e.setDescription(description);
             eventCategory enumtype = getEnumCategory();
             e.setEventCategory(enumtype);
+            e.setMaxPax(maxPax);
+            e.setEstimateDurationMins(estimateDurationMins);
             // Create Address
             Address a = new Address(street1, street2, city, postalCode);
             e.setLocation(a);
@@ -84,24 +92,23 @@ public class EventManagedBean implements Serializable  {
             Person p = personManagedBean.getPersonWithId(pId);
             e.setOrganiser(p);
             eventSessionBeanLocal.createEvent(e);
+            context.addMessage(null, new FacesMessage("Success",
+                    "Successfully created event!"));
+            createdManagedBean.populateCreatedEvents();
+
         } catch (Exception ex) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to add event"));
         }
 
-        getUserCreatedEvent();
-
-        context.addMessage(null, new FacesMessage("Success",
-                "Successfully created event!"));
-
+//        getUserCreatedEvent();
     }
 
-    public List<Event> getUserCreatedEvent() {
-        long pId = authenticationManagedBean.getUserId();
-        System.out.println("hsjhdad" + pId);
-        createdEventList = eventSessionBeanLocal.getUserCreatedEvent(pId);
-        return createdEventList;
-    }
-
+//    public void getUserCreatedEvent() {
+//        long pId = authenticationManagedBean.getUserId();
+////        System.out.println("hsjhdad" + pId);
+//        createdEventList = eventSessionBeanLocal.getUserCreatedEvent(pId);
+////        return createdEventList;
+//    }
     public eventCategory getEnumCategory() {
         eventCategory ec;
 
@@ -207,21 +214,36 @@ public class EventManagedBean implements Serializable  {
     public void setEventCat(String eventCat) {
         this.eventCat = eventCat;
     }
-    
-     public Event getSelectedEvent() {
-        return selectedEvent;
+
+//    public Event getSelectedEvent() {
+//        return selectedEvent;
+//    }
+//
+//    public void setSelectedEvent(Event selectedEvent) {
+//        this.selectedEvent = selectedEvent;
+//    }
+//
+//    public List<Event> getCreatedEventList() {
+//        return createdEventList;
+//    }
+//
+//    public void setCreatedEventList(List<Event> createdEventList) {
+//        this.createdEventList = createdEventList;
+//    }
+    public int getMaxPax() {
+        return maxPax;
     }
 
-    public void setSelectedEvent(Event selectedEvent) {
-        this.selectedEvent = selectedEvent;
-    }
-    
-    public List<Event> getCreatedEventList() {
-        return createdEventList;
+    public void setMaxPax(int maxPax) {
+        this.maxPax = maxPax;
     }
 
-    public void setCreatedEventList(List<Event> createdEventList) {
-        this.createdEventList = createdEventList;
+    public int getEstimateDurationMins() {
+        return estimateDurationMins;
+    }
+
+    public void setEstimateDurationMins(int estimateDurationMins) {
+        this.estimateDurationMins = estimateDurationMins;
     }
 
 }
