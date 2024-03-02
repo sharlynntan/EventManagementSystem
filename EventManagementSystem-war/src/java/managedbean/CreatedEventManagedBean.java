@@ -47,6 +47,17 @@ public class CreatedEventManagedBean implements Serializable {
 
     }
 
+    public String goToAttendancePage() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, String> params = context.getExternalContext()
+                .getRequestParameterMap();
+        String eIdStr = params.get("seId");
+        Long eId = Long.parseLong(eIdStr);
+        FacesContext.getCurrentInstance().getExternalContext().getFlash()
+                .put("param", eId);
+        return "attendancePage.xhtml?faces-redirect=true";
+    }
+
     public void deleteSelectedEvents() {
         FacesContext context = FacesContext.getCurrentInstance();
         Map<String, String> params = context.getExternalContext()

@@ -9,6 +9,8 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.List;
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 /**
  *
@@ -19,12 +21,23 @@ import java.util.List;
 public class EventAttendanceManagedBean implements Serializable {
 
     private List<Person> listOfAttendees;
-    
+
     private List<Person> filteredAttendees;
-    
-    private boolean globalFilterOnly  = false;
-    
+
+    @Inject
+    private AuthenticationManagedBean authenticationManagedBean;
+
+    private long eId;
+
+    private boolean globalFilterOnly = false;
+
     public EventAttendanceManagedBean() {
+    }
+
+    @PostConstruct
+    public void populateAttendanceList() {
+        long pId = authenticationManagedBean.getUserId();
+
     }
 
     public List<Person> getListOfAttendees() {
@@ -50,7 +63,5 @@ public class EventAttendanceManagedBean implements Serializable {
     public void setGlobalFilterOnly(boolean globalFilterOnly) {
         this.globalFilterOnly = globalFilterOnly;
     }
-    
-    
-    
+
 }
