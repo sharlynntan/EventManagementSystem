@@ -92,5 +92,21 @@
         width: 85%;
         padding-left: 25px;
     }
+    
+#centerpoint {
+    top: 50%;
+    left: 50%;
+    position: absolute;
+}
+
+.dialog {
+    position: relative;
+
+    width: 600px;
+    margin-left: -300px;
+
+    height: 400px;
+    margin-top: -200px;
+}
 
 

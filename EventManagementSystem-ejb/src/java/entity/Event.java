@@ -91,7 +91,7 @@ public class Event implements Serializable {
     }
 
     public Event(String title, Date date, Address location, String description, Date deadline, eventCategory eventCategory, Person organiser, int maxPax, int min) {
-        attendanceList = new ArrayList<>();
+        this.attendanceList = new ArrayList<>();
         this.title = title;
         this.date = date;
         this.location = location;
@@ -101,6 +101,7 @@ public class Event implements Serializable {
         this.organiser = organiser;
         this.maxPax = maxPax;
         this.estimateDurationMins = min;
+
     }
 
     public Date getEventEndTime() {

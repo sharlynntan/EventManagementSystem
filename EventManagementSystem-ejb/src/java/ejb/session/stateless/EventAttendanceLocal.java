@@ -4,7 +4,12 @@
  */
 package ejb.session.stateless;
 
+import Class.PersonAttendance;
+import entity.Event;
+import java.util.List;
 import javax.ejb.Local;
+import util.exception.NoResultException;
+import util.exception.PersonExistException;
 
 /**
  *
@@ -12,5 +17,11 @@ import javax.ejb.Local;
  */
 @Local
 public interface EventAttendanceLocal {
-    
+
+    public void setAttendance(Long eId, Long pId) throws PersonExistException, NoResultException;
+
+//    public List<PersonAttendance> getPersonAttendanceList(Long id);
+    public List<Event> getRegisteredEventList(Long pId);
+
+    public void unregisterEvent(Long eId, Long pId);
 }
