@@ -22,7 +22,7 @@ import util.exception.PersonExistException;
  * @author Sharlynn
  */
 @Stateless
-public class EventAttendance implements EventAttendanceLocal {
+public class EventAttendanceSessionBean implements EventAttendanceSessionBeanLocal {
 
     @EJB
     private EventSessionBeanLocal eventSessionBeanLocal;
@@ -51,6 +51,15 @@ public class EventAttendance implements EventAttendanceLocal {
         }
 
         return registeredEvent;
+    }
+
+    public List<PersonAttendance> getAttendanceListOfEvents(Long eId) throws NoResultException {
+        try {
+            Event event = eventSessionBeanLocal.getEvent(eId);
+            return event.getAttendanceList();
+        } catch (NoResultException ex) {
+            throw ex;
+        }
     }
 
     public void setAttendance(Long eId, Long pId) throws PersonExistException, NoResultException {

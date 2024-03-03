@@ -16,7 +16,7 @@ import util.exception.PersonExistException;
  * @author Sharlynn
  */
 @Local
-public interface EventAttendanceLocal {
+public interface EventAttendanceSessionBeanLocal {
 
     public void setAttendance(Long eId, Long pId) throws PersonExistException, NoResultException;
 
@@ -24,4 +24,6 @@ public interface EventAttendanceLocal {
     public List<Event> getRegisteredEventList(Long pId);
 
     public void unregisterEvent(Long eId, Long pId);
+
+    public List<PersonAttendance> getAttendanceListOfEvents(Long eId) throws NoResultException;
 }

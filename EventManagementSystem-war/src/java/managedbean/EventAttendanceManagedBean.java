@@ -4,13 +4,17 @@
  */
 package managedbean;
 
+import Class.PersonAttendance;
 import entity.Person;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
+import ejb.session.stateless.EventAttendanceSessionBeanLocal;
 
 /**
  *
@@ -20,14 +24,19 @@ import javax.inject.Inject;
 @ViewScoped
 public class EventAttendanceManagedBean implements Serializable {
 
-    private List<Person> listOfAttendees;
+    private List<PersonAttendance> listOfAttendees;
 
-    private List<Person> filteredAttendees;
+    private List<PersonAttendance> filteredAttendees;
 
     @Inject
     private AuthenticationManagedBean authenticationManagedBean;
 
+    @EJB
+    private EventAttendanceSessionBeanLocal eventAttendanceSessionBeanLocal;
+
     private long eId;
+
+    private long pId;
 
     private boolean globalFilterOnly = false;
 
@@ -36,23 +45,30 @@ public class EventAttendanceManagedBean implements Serializable {
 
     @PostConstruct
     public void populateAttendanceList() {
-        long pId = authenticationManagedBean.getUserId();
+        pId = authenticationManagedBean.getUserId();
+        try {
+            eId = (long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("param");
+            listOfAttendees = eventAttendanceSessionBeanLocal.getAttendanceListOfEvents(eId);
+
+        } catch (Exception ex) {
+
+        }
 
     }
 
-    public List<Person> getListOfAttendees() {
+    public List<PersonAttendance> getListOfAttendees() {
         return listOfAttendees;
     }
 
-    public void setListOfAttendees(List<Person> listOfAttendees) {
+    public void setListOfAttendees(List<PersonAttendance> listOfAttendees) {
         this.listOfAttendees = listOfAttendees;
     }
 
-    public List<Person> getFilteredAttendees() {
+    public List<PersonAttendance> getFilteredAttendees() {
         return filteredAttendees;
     }
 
-    public void setFilteredAttendees(List<Person> filteredAttendees) {
+    public void setFilteredAttendees(List<PersonAttendance> filteredAttendees) {
         this.filteredAttendees = filteredAttendees;
     }
 
@@ -62,6 +78,22 @@ public class EventAttendanceManagedBean implements Serializable {
 
     public void setGlobalFilterOnly(boolean globalFilterOnly) {
         this.globalFilterOnly = globalFilterOnly;
+    }
+
+    public long geteId() {
+        return eId;
+    }
+
+    public void seteId(long eId) {
+        this.eId = eId;
+    }
+
+    public long getpId() {
+        return pId;
+    }
+
+    public void setpId(long pId) {
+        this.pId = pId;
     }
 
 }

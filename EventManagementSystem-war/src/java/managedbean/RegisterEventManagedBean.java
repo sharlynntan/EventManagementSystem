@@ -4,7 +4,6 @@
  */
 package managedbean;
 
-import ejb.session.stateless.EventAttendanceLocal;
 import entity.Event;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
@@ -18,6 +17,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import util.exception.PersonExistException;
 import util.exception.NoResultException;
+import ejb.session.stateless.EventAttendanceSessionBeanLocal;
 
 /**
  *
@@ -32,7 +32,7 @@ public class RegisterEventManagedBean implements Serializable {
     private AuthenticationManagedBean authenticationManagedBean;
 
     @EJB
-    private EventAttendanceLocal eventAttendanceLocal;
+    private EventAttendanceSessionBeanLocal eventAttendanceLocal;
 
     private List<Event> listOfRegisteredEvents;
 

@@ -69,7 +69,7 @@ public class AuthenticationManagedBean implements Serializable {
         password = null;
         userId = -1L;
         loggedIn = false;
-        System.out.println("trying to logout didi");
+//        System.out.println("trying to logout didi");
         return "/index.xhtml?faces-redirect=true";
     }
 
