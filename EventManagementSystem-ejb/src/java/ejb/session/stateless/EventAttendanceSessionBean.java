@@ -23,13 +23,13 @@ import util.exception.PersonExistException;
  */
 @Stateless
 public class EventAttendanceSessionBean implements EventAttendanceSessionBeanLocal {
-
+    
     @EJB
     private EventSessionBeanLocal eventSessionBeanLocal;
-
+    
     @EJB
     private PersonSessionBeanLocal personSessionBeanlocal;
-
+    
     @PersistenceContext(unitName = "EventManagementSystem-ejbPU")
     private EntityManager em;
 
@@ -49,10 +49,10 @@ public class EventAttendanceSessionBean implements EventAttendanceSessionBeanLoc
                 }
             }
         }
-
+        
         return registeredEvent;
     }
-
+    
     public List<PersonAttendance> getAttendanceListOfEvents(Long eId) throws NoResultException {
         try {
             Event event = eventSessionBeanLocal.getEvent(eId);
@@ -61,20 +61,20 @@ public class EventAttendanceSessionBean implements EventAttendanceSessionBeanLoc
             throw ex;
         }
     }
-
+    
     public void setAttendance(Long eId, Long pId) throws PersonExistException, NoResultException {
         try {
             Event e = em.find(Event.class, eId);
-
+            
             List<PersonAttendance> aList = e.getAttendanceList();
             for (PersonAttendance pa : aList) {
                 if (pa.getPerson().getId().equals(pId)) {
                     System.out.println("hesjfhoehwfhewifhoewi  testeing");
                     throw new PersonExistException("You have signed up for event!");
-
+                    
                 }
             }
-
+            
             Person p = personSessionBeanlocal.getPerson(pId);
             PersonAttendance newPa = new PersonAttendance(p);
             e.getAttendanceList().add(newPa);
@@ -83,9 +83,9 @@ public class EventAttendanceSessionBean implements EventAttendanceSessionBeanLoc
         } catch (NoResultException ex) {
             throw ex;
         }
-
+        
     }
-
+    
     public void unregisterEvent(Long eId, Long pId) {
         Event e = em.find(Event.class, eId);
         List<PersonAttendance> aList = e.getAttendanceList();
@@ -95,7 +95,18 @@ public class EventAttendanceSessionBean implements EventAttendanceSessionBeanLoc
                 break;
             }
         }
-
+        
     }
-
+    
+    public void updateAttendance(Long eId, Long pId, boolean attendance) {
+        Event e = em.find(Event.class, eId);
+        List<PersonAttendance> aList = e.getAttendanceList();
+        for (PersonAttendance pa : aList) {
+            if (pa.getPerson().getId().equals(pId)) {
+                pa.setAttendance(attendance);
+                break;
+            }
+        }
+    }
+    
 }

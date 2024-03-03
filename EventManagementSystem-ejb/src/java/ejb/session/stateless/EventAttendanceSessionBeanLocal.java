@@ -26,4 +26,6 @@ public interface EventAttendanceSessionBeanLocal {
     public void unregisterEvent(Long eId, Long pId);
 
     public List<PersonAttendance> getAttendanceListOfEvents(Long eId) throws NoResultException;
+
+    public void updateAttendance(Long eId, Long pId, boolean attendance);
 }

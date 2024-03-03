@@ -15,6 +15,7 @@ import javax.ejb.EJB;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import ejb.session.stateless.EventAttendanceSessionBeanLocal;
+import java.util.Map;
 
 /**
  *
@@ -54,6 +55,28 @@ public class EventAttendanceManagedBean implements Serializable {
 
         }
 
+    }
+
+    public void markPresent() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, String> params = context.getExternalContext()
+                .getRequestParameterMap();
+        String pIdStr = params.get("personId");
+        Long personId = Long.parseLong(pIdStr);
+//        System.out.println("event id: " + eId);
+//        System.out.println("person id: " + personId);
+        eventAttendanceSessionBeanLocal.updateAttendance(eId, personId, true);
+        populateAttendanceList();
+    }
+
+    public void markAbsent() {
+        FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, String> params = context.getExternalContext()
+                .getRequestParameterMap();
+        String pIdStr = params.get("pIdentify");
+        Long personId = Long.parseLong(pIdStr);
+        eventAttendanceSessionBeanLocal.updateAttendance(eId, personId, false);
+        populateAttendanceList();
     }
 
     public List<PersonAttendance> getListOfAttendees() {
