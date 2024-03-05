@@ -40,6 +40,7 @@ public class EventAttendanceSessionBean implements EventAttendanceSessionBeanLoc
 //    }
     public List<Event> getRegisteredEventList(Long pId) {
         List<Event> allEvents = eventSessionBeanLocal.getAllEvents();
+        System.out.println("ehhehehhhehehhehehehheehehheeh");
         List<Event> registeredEvent = new ArrayList<Event>();
         for (Event e : allEvents) {
             List<PersonAttendance> attendance = e.getAttendanceList();

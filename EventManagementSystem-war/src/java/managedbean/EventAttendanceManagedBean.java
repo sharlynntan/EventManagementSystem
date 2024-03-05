@@ -56,6 +56,17 @@ public class EventAttendanceManagedBean implements Serializable {
         }
 
     }
+    
+    public String goToViewProfilePage() {
+         FacesContext context = FacesContext.getCurrentInstance();
+        Map<String, String> params = context.getExternalContext()
+                .getRequestParameterMap();
+        String rIdStr = params.get("prId");
+        Long peId = Long.parseLong(rIdStr);
+        FacesContext.getCurrentInstance().getExternalContext().getFlash()
+                .put("param", peId);
+        return "externalProfilePage.xhtml?faces-redirect=true"; 
+    }
 
     public void markPresent() {
         FacesContext context = FacesContext.getCurrentInstance();

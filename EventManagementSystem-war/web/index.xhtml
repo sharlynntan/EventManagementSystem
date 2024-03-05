@@ -2,13 +2,28 @@
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-                template="./layout/default.xhtml">
+                template="./layout/default.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:define name="title">
         Main Page
     </ui:define>
 
     <ui:define name="content">
-        content
+        <div class="card">
+            <h2>Join Us</h2>
+<!--            <p:galleria value="#{galleriaView.photos}" var="image" showCaption="true" style="width: 100px">
+                <p:graphicImage value="bannerImage/#{image}"/>
+            </p:galleria>-->
+
+<!--            <p:galleria value="#{galleriaView.photos}" var="photo" numVisible="5" style="max-width: 640px">
+                <p:graphicImage name="bannerImage/#{image}" style="width: 100%" />
+                <f:facet name="thumbnail">
+                    <p:graphicImage name="#{photo.thumbnailImageSrc}" alt="#{photo.alt}" />
+                </f:facet>
+            </p:galleria>-->
+            <h3>Terms and Conditions Applied</h3>
+        </div>
 
     </ui:define>
 
