@@ -17,6 +17,8 @@ import ejb.session.stateless.EventSessionBeanLocal;
 import entity.Person;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -41,9 +43,13 @@ public class EventManagedBean implements Serializable {
     @Inject
     private CreatedEventManagedBean createdManagedBean;
 
+//    private boolean globalFilterOnly = false;
+    private String searchTerm = "";
+
 //    private Event selectedEvent;
 //
-//    private List<Event> createdEventList;
+    private List<Event> filteredEvent;
+
     private String title;
 
     private Date eventDate;
@@ -68,11 +74,16 @@ public class EventManagedBean implements Serializable {
 
     public EventManagedBean() {
     }
+    
+    @PostConstruct
+    public void searchEventList() {
+        filteredEvent = (List<Event>) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("event");
+    }
 
     public List<Event> getAllEvent() {
         return eventSessionBeanLocal.getAllEvents();
     }
-
+    
     public void addEvent() {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
@@ -101,6 +112,30 @@ public class EventManagedBean implements Serializable {
         }
 
 //        getUserCreatedEvent();
+    }
+
+    public String handleSearch() {
+        filteredEvent = getAllEvent();
+        if (!searchTerm.isEmpty()) {
+            filteredEvent = eventSessionBeanLocal.getFilteredEvent(searchTerm);
+        }
+        
+//        if (searchTerm != "") {
+//            System.out.println("testing");
+//            System.out.println("what the fuck" +  searchTerm + " tf bro");
+//            filteredEvent = eventSessionBeanLocal.getFilteredEvent(searchTerm);
+//            System.out.println("ddddddddddddddddddddddddddddddddddddd" + filteredEvent.size());
+//        } 
+
+        FacesContext context = FacesContext.getCurrentInstance();
+        FacesContext.getCurrentInstance().getExternalContext().getFlash()
+                .put("event", filteredEvent);
+        
+        
+
+        searchTerm = "";
+
+        return "searchResult.xhtml?faces-redirect=true";
     }
 
 //    public void getUserCreatedEvent() {
@@ -141,6 +176,22 @@ public class EventManagedBean implements Serializable {
                 ec = eventCategory.OTHER;
         }
         return ec;
+    }
+
+    public List<Event> getFilteredEvent() {
+        return filteredEvent;
+    }
+
+    public void setFilteredEvent(List<Event> filteredEvent) {
+        this.filteredEvent = filteredEvent;
+    }
+
+    public String getSearchTerm() {
+        return searchTerm;
+    }
+
+    public void setSearchTerm(String searchTerm) {
+        this.searchTerm = searchTerm;
     }
 
     public String getTitle() {

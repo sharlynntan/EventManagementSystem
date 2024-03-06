@@ -37,6 +37,12 @@ public class EventSessionBean implements EventSessionBeanLocal {
         Query query = em.createQuery("SELECT e FROM Event e");
         return query.getResultList();
     }
+    
+    public List<Event> getFilteredEvent(String searchTerm) {
+        Query query = em.createQuery("SELECT e FROM Event e WHERE LOWER(e.description) LIKE LOWER(:searchTerm) OR  LOWER(e.title) LIKE LOWER(:searchTerm)");
+        query.setParameter("searchTerm", "%" + searchTerm + "%");
+        return query.getResultList();
+    }
 
     public void createEvent(Event e) {
         try {

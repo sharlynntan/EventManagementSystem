@@ -29,6 +29,7 @@ public class AuthenticationManagedBean implements Serializable {
     private String password = null;
     private Long userId = -1L;
     private boolean loggedIn = false;
+    private String name = "";
 
     /**
      * Creates a new instance of AuthenticationManagedBean
@@ -44,6 +45,7 @@ public class AuthenticationManagedBean implements Serializable {
             if (p.getPassword().equals(password)) {
                 userId = p.getId();
                 loggedIn = true;
+                name = p.getFirstName();
                 return "secret/mainMenu.xhtml?faces-redirect=true";
             } else {
                 email = null;
@@ -73,6 +75,14 @@ public class AuthenticationManagedBean implements Serializable {
         return "/index.xhtml?faces-redirect=true";
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    
     public boolean isLoggedIn() {
         return loggedIn;
     }

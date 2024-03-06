@@ -28,4 +28,6 @@ public interface EventSessionBeanLocal {
 
     public List<Event> getUserCreatedEvent(long pid);
     
+    public List<Event> getFilteredEvent(String searchTerm);
+    
 }

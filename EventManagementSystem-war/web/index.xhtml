@@ -11,19 +11,23 @@
 
     <ui:define name="content">
         <div class="card">
-            <h2>Join Us</h2>
-<!--            <p:galleria value="#{galleriaView.photos}" var="image" showCaption="true" style="width: 100px">
-                <p:graphicImage value="bannerImage/#{image}"/>
-            </p:galleria>-->
+            <p class="p3">Join Us</p>
 
-<!--            <p:galleria value="#{galleriaView.photos}" var="photo" numVisible="5" style="max-width: 640px">
-                <p:graphicImage name="bannerImage/#{image}" style="width: 100%" />
-                <f:facet name="thumbnail">
-                    <p:graphicImage name="#{photo.thumbnailImageSrc}" alt="#{photo.alt}" />
-                </f:facet>
-            </p:galleria>-->
-            <h3>Terms and Conditions Applied</h3>
+
+            <center>
+                <p:galleria value="#{galleriaView.photos}" var="photo" numVisible="5" responsiveOptions="#{galleriaView.responsiveOptions}"
+                            showThumbnails="false" showIndicators="true" changeItemOnIndicatorHover="true" showIndicatorsOnItem="true" style="max-width: 1200px">
+                    <!--<p:graphicImage name="bannerImage/#{photo}" alt="testing" style="width: 100%; display: block;" />-->
+                    <img src="bannerImage/#{photo}" lt="testing" style="width: 100%; display: block;" />
+                </p:galleria>
+            </center>
+
+            <!--<img src="bannerImage/gallery1.png" lt="testing" style="width: 100%; display: block;" />-->
+
         </div>
+
+        <!--<h3>Terms and Conditions Applied</h3>-->
+
 
     </ui:define>
 

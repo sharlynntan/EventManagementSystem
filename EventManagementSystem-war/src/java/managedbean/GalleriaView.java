@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import org.primefaces.model.ResponsiveOption;
 
 /**
  *
@@ -19,12 +20,14 @@ import javax.enterprise.context.RequestScoped;
 @Named(value = "galleriaView")
 @RequestScoped
 public class GalleriaView {
-    
-     private List<String> photos;
+
+    private List<String> photos;
+
+    private List<ResponsiveOption> responsiveOptions;
 
     public GalleriaView() {
     }
-    
+
     @PostConstruct
     public void init() {
         System.out.println("testets");
@@ -32,7 +35,11 @@ public class GalleriaView {
         for (int i = 1; i <= 3; i++) {
             photos.add("gallery" + i + ".png");
         }
-        System.out.println(photos.get(0));
+
+        responsiveOptions = new ArrayList<>();
+        responsiveOptions.add(new ResponsiveOption("1024px", 5));
+        responsiveOptions.add(new ResponsiveOption("768px", 3));
+        responsiveOptions.add(new ResponsiveOption("560px", 1));
     }
 
     public List<String> getPhotos() {
@@ -42,7 +49,13 @@ public class GalleriaView {
     public void setPhotos(List<String> photos) {
         this.photos = photos;
     }
-    
-    
-    
+
+    public List<ResponsiveOption> getResponsiveOptions() {
+        return responsiveOptions;
+    }
+
+    public void setResponsiveOptions(List<ResponsiveOption> responsiveOptions) {
+        this.responsiveOptions = responsiveOptions;
+    }
+
 }
