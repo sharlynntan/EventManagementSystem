@@ -70,7 +70,7 @@ public class EventAttendanceSessionBean implements EventAttendanceSessionBeanLoc
             List<PersonAttendance> aList = e.getAttendanceList();
             for (PersonAttendance pa : aList) {
                 if (pa.getPerson().getId().equals(pId)) {
-                    System.out.println("hesjfhoehwfhewifhoewi  testeing");
+//                    System.out.println("hesjfhoehwfhewifhoewi  testeing");
                     throw new PersonExistException("You have signed up for event!");
                     
                 }

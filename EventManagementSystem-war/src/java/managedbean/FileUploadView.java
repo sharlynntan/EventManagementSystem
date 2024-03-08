@@ -9,10 +9,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.FileOutputStream;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
 import org.primefaces.PrimeFaces;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.file.UploadedFile;
@@ -29,14 +35,23 @@ public class FileUploadView {
 
     private UploadedFile file;
 //    private UploadedFiles files;
-    private String dropZoneText = "Drop zone p:inputTextarea demo.";
+//    private String dropZoneText = "Drop zone p:inputTextarea demo.";
 
-    private final String destination = "/./../profilePicture/";
+    private final String destination = "web/profilePicture/";
 
-    public void upload() {
+    public void upload() throws IOException {
         if (file != null) {
+
+            System.out.println(file.getFileName());
+            ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+//            FacesContext.getCurrentInstance().addMessage(null, message);
+            String UPLOAD_DIRECTORY = ctx.getRealPath("/") + "profilePicture/";
+            System.out.println("#UPLOAD_DIRECTORY : " + UPLOAD_DIRECTORY);
+            Path path = Paths.get(UPLOAD_DIRECTORY + file.getFileName());
+            InputStream bytes = file.getInputStream();
+            Files.copy(bytes, path, StandardCopyOption.REPLACE_EXISTING);
             FacesMessage message = new FacesMessage("Successful", file.getFileName() + " is uploaded.");
-            FacesContext.getCurrentInstance().addMessage(null, message);
+//            handleFileUpload();
         }
     }
 
@@ -74,14 +89,6 @@ public class FileUploadView {
 
     public void setFile(UploadedFile file) {
         this.file = file;
-    }
-
-    public String getDropZoneText() {
-        return dropZoneText;
-    }
-
-    public void setDropZoneText(String dropZoneText) {
-        this.dropZoneText = dropZoneText;
     }
 
 }

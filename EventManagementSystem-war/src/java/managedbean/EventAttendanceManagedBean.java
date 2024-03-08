@@ -51,8 +51,9 @@ public class EventAttendanceManagedBean implements Serializable {
             eId = (long) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("param");
             listOfAttendees = eventAttendanceSessionBeanLocal.getAttendanceListOfEvents(eId);
 
+            System.out.println("hfhshfjshfjd Test");
         } catch (Exception ex) {
-
+            System.out.println("erorrrrrrrrrrrrrrrrrrrrrr");
         }
 
     }
@@ -78,6 +79,7 @@ public class EventAttendanceManagedBean implements Serializable {
 //        System.out.println("person id: " + personId);
         eventAttendanceSessionBeanLocal.updateAttendance(eId, personId, true);
         populateAttendanceList();
+        
     }
 
     public void markAbsent() {
