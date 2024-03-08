@@ -58,6 +58,16 @@ public class EventAttendanceManagedBean implements Serializable {
 
     }
     
+    public void populateAttendanceList(Long id) {
+        try {
+            listOfAttendees = eventAttendanceSessionBeanLocal.getAttendanceListOfEvents(id);
+
+            System.out.println("hfhshfjshfjd Test");
+        } catch (Exception ex) {
+            System.out.println("erorrrrrrrrrrrrrrrrrrrrrr");
+        }
+    }
+    
     public String goToViewProfilePage() {
          FacesContext context = FacesContext.getCurrentInstance();
         Map<String, String> params = context.getExternalContext()
@@ -78,7 +88,7 @@ public class EventAttendanceManagedBean implements Serializable {
 //        System.out.println("event id: " + eId);
 //        System.out.println("person id: " + personId);
         eventAttendanceSessionBeanLocal.updateAttendance(eId, personId, true);
-        populateAttendanceList();
+        populateAttendanceList(eId);
         
     }
 
@@ -89,7 +99,7 @@ public class EventAttendanceManagedBean implements Serializable {
         String pIdStr = params.get("pIdentify");
         Long personId = Long.parseLong(pIdStr);
         eventAttendanceSessionBeanLocal.updateAttendance(eId, personId, false);
-        populateAttendanceList();
+        populateAttendanceList(eId);
     }
 
     public List<PersonAttendance> getListOfAttendees() {

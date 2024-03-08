@@ -63,6 +63,7 @@ public class PersonSessionBean implements PersonSessionBeanLocal {
                 personToUpdate.setEmail(p.getEmail());
                 // to make set person to a seperate method
                 personToUpdate.setPassword(p.getPassword());
+                personToUpdate.setProfilePictureName(p.getProfilePictureName());
             }
         } catch (NoResultException ex) {
             throw ex;

@@ -36,6 +36,8 @@ public class Person implements Serializable {
     private String email;
 
     private String password;
+    
+    private String profilePictureName = "defaultProfilePage.jpg";
 
     @OneToMany (mappedBy = "organiser", cascade = CascadeType.ALL)
     private List<Event> listOfEvent = new ArrayList<Event>();
@@ -51,8 +53,14 @@ public class Person implements Serializable {
         this.email = email;
         this.password = password;
     }
-    
-    
+
+    public String getProfilePictureName() {
+        return profilePictureName;
+    }
+
+    public void setProfilePictureName(String profilePictureName) {
+        this.profilePictureName = profilePictureName;
+    }
 
     public String getFirstName() {
         return firstName;

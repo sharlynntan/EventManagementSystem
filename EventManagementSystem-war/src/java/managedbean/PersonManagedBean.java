@@ -18,6 +18,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 import ejb.session.stateless.PersonSessionBeanLocal;
+import util.exception.NoResultException;
 
 /**
  *
@@ -119,7 +120,6 @@ public class PersonManagedBean implements Serializable{
         context.addMessage(null, new FacesMessage("Success",
                 "Successfully updated customer"));
         
-         
     }
     
     public Person getPersonWithId(long id) throws Exception {
@@ -127,8 +127,16 @@ public class PersonManagedBean implements Serializable{
             return personSessionBeanLocal.getPerson(id);
         } catch (Exception ex) {
             throw ex;
+        }  
+    }
+    
+    
+    public String retrieveProfilePictureLink() throws NoResultException {
+        try {
+            return personSessionBeanLocal.getPerson(authenticationManagedBean.getUserId()).getProfilePictureName();
+        } catch (NoResultException ex) {
+            throw ex;
         }
-        
     }
 
     public String getFirstName() {
