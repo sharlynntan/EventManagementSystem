@@ -35,15 +35,15 @@
                                 <!--<p:commandLink style =" icon: pi pi-fw pi-search; margin-right: 10px; margin-left: 10px; font-size:1.25rem"/>-->
                                 <!--<i class="pi pi-fw pi-search" style =" margin-right: 10px; margin-left: 10px; font-size:1.25rem"/>-->
                                 <!--<ui:fragment rendered="#{!authenticationManagedBean.loggedIn}">-->
-                                <p:inputText placeholder="Search Events" styleClass="w-24rem" style="font-size:1.25rem" value="#{eventManagedBean.searchTerm}"/>
+                                <p:inputText placeholder="Search Events" styleClass="w-24rem" style="font-size:1.25rem" value="#{searchBean.searchQuery}"/>
                                 <p:commandButton icon ="pi pi-fw pi-search" style="background-color: transparent; color: black; border-color: transparent"
-                                                 action="#{eventManagedBean.handleSearch}"/>
+                                                 action="#{searchBean.search}"/>
                                 <!--</ui:fragment>-->
 
-                                <ui:fragment rendered="#{authenticationManagedBean.loggedIn}">
+<!--                                <ui:fragment rendered="#{authenticationManagedBean.loggedIn}">
                                     <i class="pi pi-user" style="padding: 15px;"/>
                                     <h:outputText value="Welcome Back #{authenticationManagedBean.name}"/>
-                                </ui:fragment>
+                                </ui:fragment>-->
 
 
 

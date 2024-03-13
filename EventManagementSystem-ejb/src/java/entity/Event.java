@@ -86,7 +86,7 @@ public class Event implements Serializable {
     @NotNull
     @ManyToOne
     private Person organiser;
-    
+
     private String eventImage = "defaultBanner.png";
 
     public Event() {
@@ -120,8 +120,6 @@ public class Event implements Serializable {
     public void setEventImage(String eventImage) {
         this.eventImage = eventImage;
     }
-    
-    
 
     public int getEstimateDurationMins() {
         return estimateDurationMins;

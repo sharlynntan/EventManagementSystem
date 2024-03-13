@@ -74,7 +74,7 @@ public class EventManagedBean implements Serializable {
 
     public EventManagedBean() {
     }
-    
+
     @PostConstruct
     public void searchEventList() {
         filteredEvent = (List<Event>) FacesContext.getCurrentInstance().getExternalContext().getFlash().get("event");
@@ -83,7 +83,7 @@ public class EventManagedBean implements Serializable {
     public List<Event> getAllEvent() {
         return eventSessionBeanLocal.getAllEvents();
     }
-    
+
     public void addEvent() {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
@@ -114,30 +114,19 @@ public class EventManagedBean implements Serializable {
 //        getUserCreatedEvent();
     }
 
-    public String handleSearch() {
-        filteredEvent = getAllEvent();
-        if (!searchTerm.isEmpty()) {
-            filteredEvent = eventSessionBeanLocal.getFilteredEvent(searchTerm);
-        }
-        
-//        if (searchTerm != "") {
-//            System.out.println("testing");
-//            System.out.println("what the fuck" +  searchTerm + " tf bro");
+//    public String handleSearch() {
+//        filteredEvent = getAllEvent();
+//        if (!searchTerm.isEmpty()) {
 //            filteredEvent = eventSessionBeanLocal.getFilteredEvent(searchTerm);
-//            System.out.println("ddddddddddddddddddddddddddddddddddddd" + filteredEvent.size());
-//        } 
-
-        FacesContext context = FacesContext.getCurrentInstance();
-        FacesContext.getCurrentInstance().getExternalContext().getFlash()
-                .put("event", filteredEvent);
-        
-        
-
-        searchTerm = "";
-
-        return "searchResult.xhtml?faces-redirect=true";
-    }
-
+//        }
+//
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        FacesContext.getCurrentInstance().getExternalContext().getFlash()
+//                .put("event", filteredEvent);
+//
+//        searchTerm = "";
+//        return "searchResult.xhtml?faces-redirect=true";
+//    }
 //    public void getUserCreatedEvent() {
 //        long pId = authenticationManagedBean.getUserId();
 ////        System.out.println("hsjhdad" + pId);

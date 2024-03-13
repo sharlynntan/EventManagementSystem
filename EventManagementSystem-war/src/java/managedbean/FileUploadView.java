@@ -4,7 +4,9 @@
  */
 package managedbean;
 
+import ejb.session.stateless.EventSessionBeanLocal;
 import ejb.session.stateless.PersonSessionBeanLocal;
+import entity.Event;
 import entity.Person;
 import java.io.File;
 import java.io.InputStream;
@@ -16,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Map;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -39,6 +42,9 @@ import util.exception.NoResultException;
 public class FileUploadView {
 
     @EJB
+    private EventSessionBeanLocal eventSessionBeanLocal;
+
+    @EJB
     private PersonSessionBeanLocal personSessionBeanLocal;
 
     private UploadedFile file;
@@ -47,6 +53,9 @@ public class FileUploadView {
 
     @Inject
     private AuthenticationManagedBean authenticationManagedBean;
+
+    @Inject
+    private CreatedEventManagedBean createdEventManagedBean;
 
     private final String destination = "web/profilePicture/";
 
@@ -71,7 +80,7 @@ public class FileUploadView {
 
         }
     }
-    
+
     public void uploadEventPicture() throws IOException {
         if (file != null) {
             try {
@@ -83,9 +92,14 @@ public class FileUploadView {
                 Path path = Paths.get(UPLOAD_DIRECTORY + file.getFileName());
                 InputStream bytes = file.getInputStream();
                 Files.copy(bytes, path, StandardCopyOption.REPLACE_EXISTING);
-                Person p = personSessionBeanLocal.getPerson(authenticationManagedBean.getUserId());
-                p.setProfilePictureName(file.getFileName());
-                personSessionBeanLocal.updatePerson(p);
+//                Person p = personSessionBeanLocal.getPerson(authenticationManagedBean.getUserId());
+//                p.setProfilePictureName(file.getFileName());
+//                personSessionBeanLocal.updatePerson(p);
+                Event e = eventSessionBeanLocal.getEvent(createdEventManagedBean.getSelectedEvent().getId());
+                e.setEventImage(file.getFileName());
+                eventSessionBeanLocal.updateEvent(e);
+//                System.out.println("Testing asdadadsa" + e.getEventImage());  
+                createdEventManagedBean.populateCreatedEvents();
                 FacesMessage message = new FacesMessage("Successful", file.getFileName() + " is uploaded.");
             } catch (NoResultException ex) {
                 FacesMessage message = new FacesMessage("Unsuccessful", file.getFileName() + " is not uploaded.");

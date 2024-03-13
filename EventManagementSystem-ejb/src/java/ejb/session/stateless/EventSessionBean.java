@@ -19,10 +19,10 @@ import javax.persistence.Query;
  */
 @Stateless
 public class EventSessionBean implements EventSessionBeanLocal {
-
+    
     @PersistenceContext(unitName = "EventManagementSystem-ejbPU")
     private EntityManager em;
-
+    
     public Event getEvent(Long id) throws NoResultException {
         Event event = em.find(Event.class, id);
         if (event != null) {
@@ -30,9 +30,9 @@ public class EventSessionBean implements EventSessionBeanLocal {
         } else {
             throw new NoResultException("Event cannot be found!");
         }
-
+        
     }
-
+    
     public List<Event> getAllEvents() {
         Query query = em.createQuery("SELECT e FROM Event e");
         return query.getResultList();
@@ -43,7 +43,7 @@ public class EventSessionBean implements EventSessionBeanLocal {
         query.setParameter("searchTerm", "%" + searchTerm + "%");
         return query.getResultList();
     }
-
+    
     public void createEvent(Event e) {
         try {
             em.persist(e);
@@ -52,9 +52,8 @@ public class EventSessionBean implements EventSessionBeanLocal {
             throw ex;
         }
         
-
     }
-
+    
     public void updateEvent(Event e) throws NoResultException {
         try {
             Event eventToUpdate = getEvent(e.getId());
@@ -64,12 +63,13 @@ public class EventSessionBean implements EventSessionBeanLocal {
             eventToUpdate.setTitle(e.getTitle());
             eventToUpdate.setEventCategory(e.getEventCategory());
             eventToUpdate.setLocation(e.getLocation());
-
+            eventToUpdate.setEventImage(e.getEventImage());
+            
         } catch (NoResultException ex) {
             throw ex;
         }
     }
-
+    
     public void deleteEvent(Long id) throws NoResultException {
         try {
             Event eventToDelete = getEvent(id);
@@ -84,5 +84,5 @@ public class EventSessionBean implements EventSessionBeanLocal {
         query.setParameter("pid", pid);
         return query.getResultList();
     }
-
+    
 }
