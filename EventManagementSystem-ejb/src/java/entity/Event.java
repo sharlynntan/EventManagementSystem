@@ -106,6 +106,22 @@ public class Event implements Serializable {
 
     }
 
+    public Event(String title, Date date, Address location, String description, Date deadline, eventCategory eventCategory, Person organiser,
+            int maxPax, int min, String imgName) {
+        this.attendanceList = new ArrayList<>();
+        this.title = title;
+        this.date = date;
+        this.location = location;
+        this.description = description;
+        this.deadline = deadline;
+        this.eventCategory = eventCategory;
+        this.organiser = organiser;
+        this.maxPax = maxPax;
+        this.estimateDurationMins = min;
+        this.eventImage = imgName;
+
+    }
+
     public Date getEventEndTime() {
         GregorianCalendar endTimeCalendar = new GregorianCalendar();
         endTimeCalendar.setTime(date);

@@ -32,32 +32,39 @@ public class SearchBean {
 
     private String userQuery = requestParameterMap.get("searchQuery");
 
+    private String eventEnum = requestParameterMap.get("enumString");
+
     private String searchQuery = null;
 
     private List<Event> filteredEvent;
+
+    private String enumString = null;
 
     public SearchBean() {
     }
 
     @PostConstruct
     public void populateSearchResult() {
-//        System.out.println("testing2222");
         filteredEvent = eventSessionBeanLocal.getAllEvents();
-        System.out.println("testing2ssssss222");
-//        System.out.println(userQuery + "fsdfsfdsfsdf");
-        System.out.println(userQuery == null);
 
         if (userQuery != null) {
             filteredEvent = eventSessionBeanLocal.getFilteredEvent(userQuery);
-//            System.out.println("testing2wwwwwww222");
         }
-        System.out.println("testing2222sssssss");
+
+        if (eventEnum != null) {
+            filteredEvent = eventSessionBeanLocal.getCategorisedEvent(eventEnum);
+        }
 
     }
 
     public String search() {
         // Process search query and redirect to search page
         return "searchResult.xhtml?faces-redirect=true&searchQuery=" + searchQuery;
+    }
+
+    public String categorySearch(String str) {
+        setEnumString(str);
+        return "searchResult.xhtml?faces-redirect=true&enumString=" + enumString;
     }
 
     public String getSearchQuery() {
@@ -82,6 +89,22 @@ public class SearchBean {
 
     public void setFilteredEvent(List<Event> filteredEvent) {
         this.filteredEvent = filteredEvent;
+    }
+
+    public String getEventEnum() {
+        return eventEnum;
+    }
+
+    public void setEventEnum(String eventEnum) {
+        this.eventEnum = eventEnum;
+    }
+
+    public String getEnumString() {
+        return enumString;
+    }
+
+    public void setEnumString(String enumString) {
+        this.enumString = enumString;
     }
 
 }

@@ -5,6 +5,7 @@
 package managedbean;
 
 import Class.Address;
+import Class.PersonAttendance;
 import entity.Event;
 import util.enumeration.eventCategory;
 import java.util.Date;
@@ -16,6 +17,7 @@ import javax.inject.Inject;
 import ejb.session.stateless.EventSessionBeanLocal;
 import entity.Person;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
@@ -99,6 +101,8 @@ public class EventManagedBean implements Serializable {
             // Create Address
             Address a = new Address(street1, street2, city, postalCode);
             e.setLocation(a);
+            List<PersonAttendance> emptyList = new ArrayList<PersonAttendance>();
+            e.setAttendanceList(emptyList);
             long pId = authenticationManagedBean.getUserId();
             Person p = personManagedBean.getPersonWithId(pId);
             e.setOrganiser(p);

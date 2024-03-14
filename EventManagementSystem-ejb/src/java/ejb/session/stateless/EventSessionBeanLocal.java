@@ -27,7 +27,9 @@ public interface EventSessionBeanLocal {
     public List<Event> getAllEvents();
 
     public List<Event> getUserCreatedEvent(long pid);
-    
+
     public List<Event> getFilteredEvent(String searchTerm);
-    
+
+    public List<Event> getCategorisedEvent(String enumStr);
+
 }

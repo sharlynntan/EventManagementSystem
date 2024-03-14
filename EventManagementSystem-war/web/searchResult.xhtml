@@ -38,10 +38,10 @@
                     <!--                    <f:facet name="header">-->
 
                     <ui:fragment rendered="#{authenticationManagedBean.loggedIn}">
-                        <img src="./../images/defaultBanner.png" style ="width:150px;"/>
+                        <img src="./../eventPicture/#{createdEventManagedBean.selectedEvent.eventImage}" style ="width:150px;"/>
                     </ui:fragment>
                     <ui:fragment rendered="#{!authenticationManagedBean.loggedIn}">
-                        <img src="images/defaultBanner.png" style ="width:150px; " />
+                        <img src="eventPicture/#{createdEventManagedBean.selectedEvent.eventImage}" style ="width:150px; " />
                     </ui:fragment>
                     <!--</f:facet>-->
 
@@ -57,13 +57,17 @@
                         <h:outputText value="#{createdEventManagedBean.selectedEvent.description}" />
 
                         <h:outputText value="Date" />
-                        <h:outputText value="#{createdEventManagedBean.selectedEvent.date}"/>
+                        <h:outputText value="#{createdEventManagedBean.selectedEvent.date}">
+                            <f:convertDateTime type="date" pattern="dd MMMM yyyy HH:mm" />
+                        </h:outputText>
 
                         <h:outputText value="Category" />
                         <h:outputText value="#{createdEventManagedBean.selectedEvent.eventCategory}" />
 
                         <h:outputText value="Deadline" />
-                        <h:outputText value="#{createdEventManagedBean.selectedEvent.deadline}" />
+                        <h:outputText value="#{createdEventManagedBean.selectedEvent.deadline}">
+                            <f:convertDateTime type="date" pattern="dd MMMM yyyy HH:mm" />
+                        </h:outputText>
 
                         <h:outputText value="Max Person:" />
                         <h:outputText value="#{createdEventManagedBean.selectedEvent.maxPax}" />
@@ -79,7 +83,8 @@
                     <ui:fragment rendered="#{authenticationManagedBean.loggedIn}">
                         <p:commandButton action="#{registerEventManagedBean.signUpEvent}" 
                                          rendered="#{!registerEventManagedBean.listOfRegisteredEvents.contains(event) and 
-                                                     !createdEventManagedBean.listOfCreatedEvents.contains(event)}"
+                                                     !createdEventManagedBean.listOfCreatedEvents.contains(event) and 
+                                                     event.maxPax != event.attendanceList.size()}"
                                          update=":form" value="Sign Up"
                                          icon="pi pi-pencil">
                             <f:param name="eId" value="#{createdEventManagedBean.selectedEvent.id}" />
