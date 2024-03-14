@@ -1,3 +1,4 @@
+# IS3106 Assignment 1 Online Event Management System
 Name: Tan Hui Xin Sharlynn
 Student Number: A0254722H
 Database Details and Instruction for deploying project:
