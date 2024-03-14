@@ -6,6 +6,10 @@ Java DB Database Name: eventManagementSystemDB
 User: administrator
 password: password
 
+After deployment of Application, the following credential can be used to login:
+email: syafi@gmail.com
+password: password
+
 
 #Completed Used Case
 1. Login, Logout
