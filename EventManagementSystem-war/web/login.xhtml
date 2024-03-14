@@ -58,7 +58,10 @@
                     <div class="col-5 flex align-items-center justify-content-center">
                         <!--    <img src="images/logo.jpeg" style ="width:250px; "/> <br> </br>-->
                         <!--<p:commandButton type="button" value="Sign Up" icon="pi pi-user-plus" class="ui-button-success" />-->
-                        <h2>Upcoming Events</h2>
+                        <p:galleria value="#{galleriaView.photos}" var="photo" numVisible="5" responsiveOptions="#{galleriaView.responsiveOptions}"
+                                    showThumbnails="false" showIndicators="true" changeItemOnIndicatorHover="true" showIndicatorsOnItem="true" style="max-width: 700px">
+                            <img src="bannerImage/#{photo}" lt="testing" style="width: 100%; display: block;" />
+                        </p:galleria>
                     </div>
                 </div>
                 <p:messages id="messages" showDetail="true">
