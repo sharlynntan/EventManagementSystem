@@ -30,4 +30,5 @@ password: password
 1. Browse Event By Category
 2. View Profile of other users E.g. Creator of event or Attendee of event
 3. Upload/Change Event Cover Image
+4. Password Hashing
 
