@@ -8,11 +8,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -27,19 +30,25 @@ public class Person implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 25, nullable = false)
+    @NotNull
     private String firstName;
 
     private String lastName;
 
     private String contactNumber;
 
+    @NotNull
+    @Size(max = 50, min = 3)
+    @Column(unique = true)
     private String email;
 
+    @NotNull
     private String password;
-    
+
     private String profilePictureName = "defaultProfilePage.jpg";
 
-    @OneToMany (mappedBy = "organiser", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "organiser", cascade = CascadeType.ALL)
     private List<Event> listOfEvent = new ArrayList<Event>();
 
     // private String imagePath;

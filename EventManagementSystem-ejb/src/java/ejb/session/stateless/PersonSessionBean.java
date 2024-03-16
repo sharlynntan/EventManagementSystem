@@ -5,6 +5,8 @@
 package ejb.session.stateless;
 
 import entity.Person;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import util.exception.NoResultException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -31,7 +33,7 @@ public class PersonSessionBean implements PersonSessionBeanLocal {
         }
 
     }
-    
+
     public Person getPerson(String email) throws NoResultException {
         Query query = em.createQuery("SELECT p FROM Person p WHERE p.email = :email");
         query.setParameter("email", email);
@@ -40,17 +42,39 @@ public class PersonSessionBean implements PersonSessionBeanLocal {
         } catch (Exception ex) {
             throw new NoResultException("Email cannot be found!!");
         }
-        
-        
+
     }
 
     public void createPerson(Person p) {
         try {
+            String pass = p.getPassword();
+            p.setPassword(hashPassword(pass));
             em.persist(p);
             em.flush();
         } catch (Exception ex) {
             throw ex;
         }
+    }
+
+    public String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(password.getBytes());
+            byte[] hashedPassword = md.digest();
+            return bytesToHex(hashedPassword);
+        } catch (NoSuchAlgorithmException e) {
+            // Handle exception
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder result = new StringBuilder();
+        for (byte b : bytes) {
+            result.append(String.format("%02x", b));
+        }
+        return result.toString();
     }
 
     public void updatePerson(Person p) throws NoResultException {
@@ -70,7 +94,7 @@ public class PersonSessionBean implements PersonSessionBeanLocal {
         }
 
     }
-    
+
     public void deletePerson(Long pId) throws NoResultException {
         try {
             Person personToDelete = getPerson(pId);

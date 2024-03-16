@@ -11,6 +11,8 @@ import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
 import javax.ejb.EJB;
 import ejb.session.stateless.PersonSessionBeanLocal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 
@@ -41,8 +43,11 @@ public class AuthenticationManagedBean implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
             Person p = personSessionBeanLocal.getPerson(email);
-            System.out.println(p.getPassword());
-            if (p.getPassword().equals(password)) {
+//            System.out.println(p.getPassword());
+            String hashedPassword = hashPassword(password);
+//            System.out.println(hashedPassword);
+//            System.out.println(p.getPassword());
+            if (p.getPassword().equals(hashedPassword)) {
                 userId = p.getId();
                 loggedIn = true;
                 name = p.getFirstName();
@@ -75,6 +80,27 @@ public class AuthenticationManagedBean implements Serializable {
         return "/index.xhtml?faces-redirect=true";
     }
 
+    public String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(password.getBytes());
+            byte[] hashedPassword = md.digest();
+            return bytesToHex(hashedPassword);
+        } catch (NoSuchAlgorithmException e) {
+            // Handle exception
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder result = new StringBuilder();
+        for (byte b : bytes) {
+            result.append(String.format("%02x", b));
+        }
+        return result.toString();
+    }
+
     public String getName() {
         return name;
     }
@@ -82,7 +108,7 @@ public class AuthenticationManagedBean implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
-    
+
     public boolean isLoggedIn() {
         return loggedIn;
     }

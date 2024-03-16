@@ -11,7 +11,9 @@
     </ui:define>
 
     <ui:define name="content">
+
         <h:form>
+            <p:growl id="growl" showDetail="true" sticky="true" />
             <div class = "center">
                 <h2>Create New Account</h2>
                 <img src="images/updatedLogo.png" style ="width:250px; "/>
@@ -58,11 +60,11 @@
                 </div>
             </div>
             <div class= "center">
-                <h:commandButton value="Create Account" 
-                                 actionListener="#{personManagedBean.addPerson}" 
-                                 action ="index.xhtml?faces-redirect=true "
+                <p:commandButton value="Create Account" 
+                                 action="#{personManagedBean.addPerson}" 
+                                 update="messages"
                                  style = "background-color: black;  text-align: center; color: white; height: 42;
-                                 border-radius: 12px;border: none; padding: 15px 32px;" styleClass="w-10rem"/>
+                                 border-radius: 12px;border: none" styleClass="w-10rem"/>
                 <a href="registerPage.xhtml"><p:button value="Reset" 
                                                        style = "background-color: lightgray;  border-radius: 12px; height: 42; text-align: center" styleClass="w-10rem"/></a>
             </div>

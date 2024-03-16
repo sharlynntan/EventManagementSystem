@@ -18,6 +18,10 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 import ejb.session.stateless.PersonSessionBeanLocal;
+import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import javax.faces.context.ExternalContext;
 import util.exception.NoResultException;
 
 /**
@@ -26,11 +30,11 @@ import util.exception.NoResultException;
  */
 @Named(value = "personManagedBean")
 @ViewScoped
-public class PersonManagedBean implements Serializable{
+public class PersonManagedBean implements Serializable {
 
     @EJB
     private PersonSessionBeanLocal personSessionBeanLocal;
-    
+
 //    @ManagedProperty(value = "#{authenticationManagedBean}")
     @Inject
     private AuthenticationManagedBean authenticationManagedBean;
@@ -56,10 +60,10 @@ public class PersonManagedBean implements Serializable{
     private String confirmedPassword;
 
     private boolean passwordChecked = false;
-    
+
     private Person selectedPerson;
 
-    private Long pId; 
+    private Long pId;
 
     public PersonManagedBean() {
     }
@@ -74,18 +78,59 @@ public class PersonManagedBean implements Serializable{
 //            }
 //        }
 //    }
-
-    public void addPerson(ActionEvent evt) {
-        Person p = new Person();
-        p.setFirstName(firstName);
-        p.setLastName(lastName);
-        p.setContactNumber(contactNumber);
-        p.setEmail(email);
-        p.setPassword(password);
-        personSessionBeanLocal.createPerson(p);
+    public void addPerson() {
+        try {
+            FacesContext context = FacesContext.getCurrentInstance();
+            if (checkAccount()) {
+                Person p = new Person();
+                p.setFirstName(firstName);
+                p.setLastName(lastName);
+                p.setContactNumber(contactNumber);
+                p.setEmail(email);
+                p.setPassword(password);
+                personSessionBeanLocal.createPerson(p);
+                ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+                externalContext.redirect("login.xhtml");
+            } else {
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "You have an account already!!"));
+            }
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
 
     }
-    
+
+    private boolean checkAccount() {
+        try {
+            Person checkEmail = personSessionBeanLocal.getPerson(email);
+            return false;
+        } catch (NoResultException ex) {
+            return true;
+        }
+
+    }
+
+    public String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            md.update(password.getBytes());
+            byte[] hashedPassword = md.digest();
+            return bytesToHex(hashedPassword);
+        } catch (NoSuchAlgorithmException e) {
+            // Handle exception
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    private String bytesToHex(byte[] bytes) {
+        StringBuilder result = new StringBuilder();
+        for (byte b : bytes) {
+            result.append(String.format("%02x", b));
+        }
+        return result.toString();
+    }
+
     public void loadSelectedPerson() {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
@@ -96,13 +141,12 @@ public class PersonManagedBean implements Serializable{
             lastName = selectedPerson.getLastName();
             contactNumber = selectedPerson.getContactNumber();
             email = selectedPerson.getEmail();
-            
-            
+
         } catch (Exception ex) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load customer"));
         }
     }
-    
+
     public void updatePerson() {
         FacesContext context = FacesContext.getCurrentInstance();
         selectedPerson.setFirstName(firstName);
@@ -114,23 +158,22 @@ public class PersonManagedBean implements Serializable{
         } catch (Exception ex) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to update customer"));
         }
-        
+
         loadSelectedPerson();
-        
+
         context.addMessage(null, new FacesMessage("Success",
                 "Successfully updated customer"));
-        
+
     }
-    
+
     public Person getPersonWithId(long id) throws Exception {
         try {
             return personSessionBeanLocal.getPerson(id);
         } catch (Exception ex) {
             throw ex;
-        }  
+        }
     }
-    
-    
+
     public String retrieveProfilePictureLink() throws NoResultException {
         try {
             return personSessionBeanLocal.getPerson(authenticationManagedBean.getUserId()).getProfilePictureName();
@@ -178,7 +221,7 @@ public class PersonManagedBean implements Serializable{
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
     public String getConfirmedPassword() {
         return confirmedPassword;
     }
@@ -194,7 +237,7 @@ public class PersonManagedBean implements Serializable{
     public void setPasswordChecked(boolean passwordChecked) {
         this.passwordChecked = passwordChecked;
     }
-    
+
     public Person getSelectedPerson() {
         return selectedPerson;
     }
@@ -202,8 +245,8 @@ public class PersonManagedBean implements Serializable{
     public void setSelectedPerson(Person selectedPerson) {
         this.selectedPerson = selectedPerson;
     }
-    
-     public Long getpId() {
+
+    public Long getpId() {
         return pId;
     }
 
