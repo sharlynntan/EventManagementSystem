@@ -32,3 +32,4 @@ password: password
 3. Upload/Change Event Cover Image
 4. Password Hashing
 
+Some given assumption for events: when maxpax is met, no new user can sign up. Organiser cannot sign up for their own events.
