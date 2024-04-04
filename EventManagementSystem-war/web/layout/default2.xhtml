@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="description" content="Manup Template"/>
+        <meta name="keywords" content="Manup, unica, creative, html"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+
+        <title>Event Management System</title>
+        <!-- Google Font -->
+        <link href="https://fonts.googleapis.com/css?family=Work+Sans:400,500,600,700,800,900&amp;display=swap"
+              rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&amp;display=swap" rel="stylesheet"/>
+
+
+        <!-- Css Styles -->
+        <h:outputStylesheet name="css/bootstrap.min.css"/>
+        <h:outputStylesheet name="css/cssLayout.css"/>
+        <h:outputStylesheet name="css/default.css"/>
+        <h:outputStylesheet name="css/elegant-icons.css"/>
+        <h:outputStylesheet name="css/font-awesome.min.css"/>
+        <h:outputStylesheet name="css/magnific-popup.css"/>
+        <h:outputStylesheet name="css/owl.carousel.min.css"/>
+        <h:outputStylesheet name="css/slicknav.min.css"/>
+        <h:outputStylesheet name="css/style.css"/>
+
+        <h:outputScript name="fonts/ElegantIcons.eot"/>
+        <h:outputScript name="fonts/ElegantIcons.svg"/>
+        <h:outputScript name="fonts/ElegantIcons.ttf"/>
+        <h:outputScript name="fonts/fontawesome-webfont.eot"/>
+        <h:outputScript name="fonts/fontawesome-webfont.svg"/>
+        <h:outputScript name="fonts/fontawesome-webfont.ttf"/>
+        <h:outputScript name="fonts/fontawesome-webfont.woff"/>
+        <h:outputScript name="fonts/fontawesome-webfont.woff2"/>
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+
+    </h:head>
+
+    <h:body>
+        <header class="header-section">
+            <div class="container">
+                <div class="logo">
+                    <a href="./index.xhtml">
+                        <img src="images/testing.png" alt="" style="width:1500px"/>
+                    </a>
+                </div>
+                <div class="nav-menu">
+                    <nav class="mainmenu mobile-menu">
+                        <ul>
+                            <li class="active"><a href="./index.xhtml">Home</a></li>
+                            <li><a href="./about-us.html">About</a></li>
+                            <li><a href="./about-us.html">Events</a></li>
+                            <li><a href="./speaker.html">Browse Category</a>
+                                <ul class="dropdown">
+                                    <li><a href="#">Jayden</a></li>
+                                    <li><a href="#">Sara</a></li>
+                                    <li><a href="#">Emma</a></li>
+                                    <li><a href="#">Harriet</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </nav>
+                    <a href="#" class="primary-btn top-btn"><i class="fa fa-sign-in"></i> Login </a>
+                    <a href="#" class="primary-btn top-btn"><i class="fa fa-user-o"></i> Sign Up</a>
+
+                </div>
+                <div id="mobile-menu-wrap"></div>
+            </div>
+        </header>
+
+        <div id="content" class="center_content">
+            <ui:insert name="content">Content</ui:insert>
+        </div>
+
+        <div id="bottom">
+            <ui:insert name="bottom">Bottom</ui:insert>
+        </div>
+
+
+
+        <!-- loader -->
+        <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+        <h:outputScript name="js/bootstrap.min.js"/>
+        <h:outputScript name="js/jquery-3.3.1.min.js"/>
+        <h:outputScript name="js/jquery.countdown.min.js"/>
+        <h:outputScript name="js/jquery.magnific-popup.min.js"/>
+        <h:outputScript name="js/jquery.slicknav.js"/>
+        <h:outputScript name="js/main.js"/>
+        <h:outputScript name="js/owl.carousel.min.js"/>
+
+
+
+
+
+    </h:body>
+
+</html>
