@@ -29,19 +29,22 @@
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
-    
     <mime-mapping>
         <extension>svg</extension>
         <mime-type>image/svg+xml</mime-type>
     </mime-mapping>
-    
     <context-param>
         <param-name>javax.faces.WEBAPP_RESOURCES_DIRECTORY</param-name>
         <param-value>/resources</param-value>
     </context-param>
-    
-<!--    <servlet-mapping>
+    <!--    <servlet-mapping>
         <servlet-name>default</servlet-name>
         <url-pattern>*.woff</url-pattern>
     </servlet-mapping>-->
+    <ejb-local-ref>
+        <ejb-ref-name>EventSessionBean</ejb-ref-name>
+        <ejb-ref-type>Session</ejb-ref-type>
+        <local>ejb.session.stateless.EventSessionBeanLocal</local>
+        <ejb-link>EventManagementSystem-ejb.jar#EventSessionBean</ejb-link>
+    </ejb-local-ref>
 </web-app>

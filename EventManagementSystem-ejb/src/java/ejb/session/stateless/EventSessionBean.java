@@ -46,8 +46,9 @@ public class EventSessionBean implements EventSessionBeanLocal {
 
     public List<Event> getCategorisedEvent(String enumStr) {
         eventCategory ec = getEnumCategory(enumStr);
+        System.out.println("-------------------" + enumStr);
         Query query = em.createQuery("SELECT e FROM Event e WHERE e.eventCategory = :enumCat");
-        query.setParameter("enumCat", ec);
+        query.setParameter("enumCat", ec.toString());
         return query.getResultList();
     }
 
@@ -98,29 +99,29 @@ public class EventSessionBean implements EventSessionBeanLocal {
     public eventCategory getEnumCategory(String eventCat) {
         eventCategory ec;
 
-        switch (eventCat) {
-            case "Music":
+        switch (eventCat.toLowerCase()) {
+            case "music":
                 ec = eventCategory.MUSIC;
                 break;
-            case "Nightlife":
+            case "nightlife":
                 ec = eventCategory.NIGHTLIFE;
                 break;
-            case "Performing Art":
+            case "performing art":
                 ec = eventCategory.PERFORMINGART;
                 break;
-            case "Holidays":
+            case "holidays":
                 ec = eventCategory.HOLIDAYS;
                 break;
-            case "Health":
+            case "health":
                 ec = eventCategory.HEALTH;
                 break;
-            case "Hobbies":
+            case "hobbies":
                 ec = eventCategory.HOBBIES;
                 break;
-            case "Business":
+            case "business":
                 ec = eventCategory.BUSINESS;
                 break;
-            case "Food and Drink":
+            case "food and drink":
                 ec = eventCategory.FOODANDDRINK;
                 break;
             default:
