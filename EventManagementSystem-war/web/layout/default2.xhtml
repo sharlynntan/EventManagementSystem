@@ -21,8 +21,9 @@
 
         <!-- Css Styles -->
         <h:outputStylesheet name="css/bootstrap.min.css"/>
-        <h:outputStylesheet name="css/cssLayout.css"/>
-        <h:outputStylesheet name="css/default.css"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"/>
+        <!--        <h:outputStylesheet name="css/cssLayout.css"/>
+                <h:outputStylesheet name="css/default.css"/>-->
         <h:outputStylesheet name="css/elegant-icons.css"/>
         <h:outputStylesheet name="css/font-awesome.min.css"/>
         <h:outputStylesheet name="css/magnific-popup.css"/>
@@ -30,20 +31,33 @@
         <h:outputStylesheet name="css/slicknav.min.css"/>
         <h:outputStylesheet name="css/style.css"/>
 
-        <h:outputScript name="fonts/ElegantIcons.eot"/>
-        <h:outputScript name="fonts/ElegantIcons.svg"/>
-        <h:outputScript name="fonts/ElegantIcons.ttf"/>
-        <h:outputScript name="fonts/fontawesome-webfont.eot"/>
-        <h:outputScript name="fonts/fontawesome-webfont.svg"/>
-        <h:outputScript name="fonts/fontawesome-webfont.ttf"/>
-        <h:outputScript name="fonts/fontawesome-webfont.woff"/>
-        <h:outputScript name="fonts/fontawesome-webfont.woff2"/>
+        <!--        <h:outputScript name="fonts/ElegantIcons.eot"/>
+                <h:outputScript name="fonts/ElegantIcons.svg"/>
+                <h:outputScript name="fonts/ElegantIcons.ttf"/>-->
+        <h:outputStylesheet library="fonts" name="ElegantIcons.eot" />
+        <h:outputStylesheet library="fonts" name="ElegantIcons.svg" />
+        <h:outputStylesheet library="fonts" name="ElegantIcons.ttf" />
+        <!--                <h:outputScript name="fonts/fontawesome-webfont.eot"/>
+                        <h:outputScript name="fonts/fontawesome-webfont.svg"/>
+                        <h:outputScript name="fonts/fontawesome-webfont.ttf"/>
+                        <h:outputScript name="fonts/fontawesome-webfont.woff"/>
+                        <h:outputScript name="fonts/fontawesome-webfont.woff2"/>-->
+        <h:outputStylesheet name="fonts/fontawesome-webfont.eot"/>
+        <h:outputStylesheet name="fonts/fontawesome-webfont.svg"/>
+        <!--        <h:outputStylesheet name="fonts/fontawesome-webfont.ttf"/>
+                <h:outputStylesheet name="fonts/fontawesome-webfont.woff"/>
+                <h:outputStylesheet name="fonts/fontawesome-webfont.woff2"/>-->
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 
     </h:head>
 
     <h:body>
+        <div id="preloder">
+            <div class="loader"></div>
+        </div>
         <header class="header-section">
             <div class="container">
                 <div class="logo">
@@ -67,7 +81,7 @@
                             </li>
                         </ul>
                     </nav>
-                    <a href="#" class="primary-btn top-btn"><i class="fa fa-sign-in"></i> Login </a>
+                    <a href="./login.xhtml" class="primary-btn top-btn"><i class="fa fa-sign-in"></i> Login </a>
                     <a href="#" class="primary-btn top-btn"><i class="fa fa-user-o"></i> Sign Up</a>
 
                 </div>
@@ -80,13 +94,16 @@
         </div>
 
         <div id="bottom">
-            <ui:insert name="bottom">Bottom</ui:insert>
+            <div class="card">
+                &copy;EventSystem 2024
+            </div>
+
         </div>
 
 
 
         <!-- loader -->
-        <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+        <!--<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>-->
         <h:outputScript name="js/bootstrap.min.js"/>
         <h:outputScript name="js/jquery-3.3.1.min.js"/>
         <h:outputScript name="js/jquery.countdown.min.js"/>
@@ -94,6 +111,7 @@
         <h:outputScript name="js/jquery.slicknav.js"/>
         <h:outputScript name="js/main.js"/>
         <h:outputScript name="js/owl.carousel.min.js"/>
+
 
 
 

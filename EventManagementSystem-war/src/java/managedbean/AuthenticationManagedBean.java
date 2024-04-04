@@ -41,9 +41,12 @@ public class AuthenticationManagedBean implements Serializable {
 
     public String login() {
         FacesContext context = FacesContext.getCurrentInstance();
+        System.out.println(email);
+        System.out.println(password);
+
         try {
             Person p = personSessionBeanLocal.getPerson(email);
-//            System.out.println(p.getPassword());
+            System.out.println(p.getPassword());
             String hashedPassword = hashPassword(password);
 //            System.out.println(hashedPassword);
 //            System.out.println(p.getPassword());
