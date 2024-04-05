@@ -28,9 +28,9 @@ public class ApplicationConfig extends Application {
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(webservices.restful.AuthenticationEndpointResource.class);
+        resources.add(webservices.restful.AuthenticationFilter.class);
         resources.add(webservices.restful.CustomersResource.class);
         resources.add(webservices.restful.EventsResource.class);
-        resources.add(webservices.restful.AuthenticationEndpointResource.class);
     }
 
 }

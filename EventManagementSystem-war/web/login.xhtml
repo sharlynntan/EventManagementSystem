@@ -28,15 +28,15 @@
                                     <div class="main" style="align-content: center">
                                         <div class="col-md-6 col-sm-12">
                                             <div class="login-form">
-                                                <form action="#{authenticationManagedBean.login()}" id="formId">
+                                                <form onsubmit="loginUser(event)" id="formId">
                                                     <div class="form-group">
                                                         <label>Email</label>
-                                                        <h:inputText class="form-control" style="width:400px" value="#{authenticationManagedBean.email}" 
+                                                        <h:inputText class="form-control" style="width:400px" id ="email"
                                                                      required="true" requiredMessage = "Please enter email"/>
                                                     </div>
                                                     <div class="form-group">
                                                         <label>Password</label>
-                                                        <h:inputSecret value="#{authenticationManagedBean.password}" class="form-control" style="width:400px"
+                                                        <h:inputSecret class="form-control" style="width:400px" id="password"
                                                                        required="true" requiredMessage = "Please enter password"/>
                                                     </div>
                                                     <div class="row" style="padding-left: 70%">
@@ -58,7 +58,63 @@
                         </div>
                     </div>
                 </div>
+                <script>
+                    function loginUser(event) {
+                        console.log("loginUser function called");
+                        event.preventDefault(); // Prevent default form submission
+
+                        var email = document.getElementById('email').value;
+                        var password = document.getElementById('password').value;
+
+                        var url = "./webresources/authentication";
+                        var params = {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json" // Set content type to JSON
+                            },
+                            body: JSON.stringify({// Convert JavaScript object to JSON string
+                                email: email,
+                                password: password
+                            })
+                        };
+
+                        fetch(url, params)
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error("Network response was not ok");
+                                    }
+                                    return response.json(); // Parse response JSON
+                                })
+                                .then(data => {
+                                    // Save token to localStorage
+                                    localStorage.setItem('token', data.token);
+
+                                    // Retrieve token from localStorage (optional)
+                                    const token = localStorage.getItem('token');
+                                    console.log("testing" + token);
+
+                                    // Request was successful, handle the response here
+                                    console.log(data);
+                                    // You can redirect to another page or display a success message here
+                                    window.location.href = 'mainMenu.xhtml';
+                                })
+                                .catch(error => {
+                                    if (error instanceof TypeError) {
+                                        // Network error
+                                        console.log(error);
+                                        alert("Error: Unable to connect to the server. Please try again later.");
+                                    } else {
+                                        // Authentication error
+                                        console.log(error);
+                                        alert("Invalid email or password. Please try again.");
+                                    }
+                                });
+                    }
+                </script>
             </ui:define>
+
+
+
 
         </ui:composition>
 

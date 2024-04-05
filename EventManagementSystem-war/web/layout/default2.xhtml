@@ -25,7 +25,7 @@
         <!--        <h:outputStylesheet name="css/cssLayout.css"/>
                 <h:outputStylesheet name="css/default.css"/>-->
         <h:outputStylesheet name="css/elegant-icons.css"/>
-        <h:outputStylesheet name="css/font-awesome.min.css"/>
+        <!--<h:outputStylesheet name="css/font-awesome.min.css"/>-->
         <h:outputStylesheet name="css/magnific-popup.css"/>
         <h:outputStylesheet name="css/owl.carousel.min.css"/>
         <h:outputStylesheet name="css/slicknav.min.css"/>
@@ -44,13 +44,11 @@
                         <h:outputScript name="fonts/fontawesome-webfont.woff2"/>-->
         <h:outputStylesheet name="fonts/fontawesome-webfont.eot"/>
         <h:outputStylesheet name="fonts/fontawesome-webfont.svg"/>
-        <!--        <h:outputStylesheet name="fonts/fontawesome-webfont.ttf"/>
-                <h:outputStylesheet name="fonts/fontawesome-webfont.woff"/>
-                <h:outputStylesheet name="fonts/fontawesome-webfont.woff2"/>-->
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+        <!--<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"/>-->
+
 
     </h:head>
 
@@ -70,7 +68,14 @@
                         <ul>
                             <li class="active"><a href="./index.xhtml">Home</a></li>
                             <li><a href="./about-us.html">About</a></li>
-                            <li><a href="./about-us.html">Events</a></li>
+                            <ui:fragment rendered="#{authenticationManagedBean.loggedIn}">
+                                <li><a href="./speaker.html">Events</a>
+                                    <ul class="dropdown">
+                                        <li><a href="#">My Events</a></li>
+                                        <li><a href="#">Registered Events</a></li>
+                                    </ul>
+                                </li>
+                            </ui:fragment>
                             <li><a href="./speaker.html">Browse Category</a>
                                 <ul class="dropdown">
                                     <li><a href="#">Jayden</a></li>
@@ -81,8 +86,16 @@
                             </li>
                         </ul>
                     </nav>
-                    <a href="./login.xhtml" class="primary-btn top-btn"><i class="fa fa-sign-in"></i> Login </a>
-                    <a href="#" class="primary-btn top-btn"><i class="fa fa-user-o"></i> Sign Up</a>
+
+                    <ui:fragment rendered="#{!authenticationManagedBean.loggedIn}">
+                        <a href="./login.xhtml" class="primary-btn top-btn"><i class="fa fa-sign-in"></i> Login </a>
+                        <a href="#" class="primary-btn top-btn"><i class="fa fa-user-o"></i> Sign Up</a>
+                    </ui:fragment>
+
+                    <ui:fragment rendered="#{authenticationManagedBean.loggedIn}">
+                        <a href="#" class="primary-btn top-btn"><i class="fa fa-user-o"></i> My Profile </a>
+                        <a href="./login.xhtml" class="primary-btn top-btn"><i class="fa fa-sign-out"></i> Logout </a>
+                    </ui:fragment>
 
                 </div>
                 <div id="mobile-menu-wrap"></div>
@@ -111,6 +124,7 @@
         <h:outputScript name="js/jquery.slicknav.js"/>
         <h:outputScript name="js/main.js"/>
         <h:outputScript name="js/owl.carousel.min.js"/>
+        <h:outputScript name="js/bootstrap.bundle.min.js"/>
 
 
 
