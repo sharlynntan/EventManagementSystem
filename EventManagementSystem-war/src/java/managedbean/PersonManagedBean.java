@@ -21,6 +21,7 @@ import ejb.session.stateless.PersonSessionBeanLocal;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import javax.ejb.EJBException;
 import javax.faces.context.ExternalContext;
 import util.exception.NoResultException;
 
@@ -68,19 +69,14 @@ public class PersonManagedBean implements Serializable {
     public PersonManagedBean() {
     }
 
-//    public void validatePassword(FacesContext facesContext, UIComponent uIComponent, Object object) {
-//        if (password != null) {
-//            if (confirmedPassword == null || !confirmedPassword.equals(password)) {
-//                facesContext.addMessage(uIComponent.getClientId(facesContext), new FacesMessage(
-//                        "Password does not match"));
-//            } else {
-//                passwordChecked = true;
-//            }
-//        }
-//    }
     public void addPerson() {
+        FacesContext context = FacesContext.getCurrentInstance();
         try {
-            FacesContext context = FacesContext.getCurrentInstance();
+            if (firstName == null || lastName == null || contactNumber == null || email == null || password == null) {
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "Empty Field!"));
+                return;
+            }
+            System.out.println("test");
             if (checkAccount()) {
                 Person p = new Person();
                 p.setFirstName(firstName);
@@ -92,10 +88,12 @@ public class PersonManagedBean implements Serializable {
                 ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
                 externalContext.redirect("login.xhtml");
             } else {
-                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "You have an account already!!"));
+                context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "You have an account already!!"));
             }
         } catch (IOException ex) {
             ex.printStackTrace();
+        } catch (EJBException ejbEx) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error:", "An EJBException occurred. Please try again later."));
         }
 
     }
