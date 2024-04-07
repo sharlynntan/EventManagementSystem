@@ -18,9 +18,11 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 
 import ejb.session.stateless.PersonSessionBeanLocal;
+import entity.Event;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import javax.ejb.EJBException;
 import javax.faces.context.ExternalContext;
 import util.exception.NoResultException;
@@ -65,6 +67,8 @@ public class PersonManagedBean implements Serializable {
     private Person selectedPerson;
 
     private Long pId;
+
+    private List<Event> eventList;
 
     public PersonManagedBean() {
     }
@@ -139,6 +143,7 @@ public class PersonManagedBean implements Serializable {
             lastName = selectedPerson.getLastName();
             contactNumber = selectedPerson.getContactNumber();
             email = selectedPerson.getEmail();
+            eventList = selectedPerson.getListOfEvent();
 
         } catch (Exception ex) {
             context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Unable to load customer"));
@@ -250,6 +255,14 @@ public class PersonManagedBean implements Serializable {
 
     public void setpId(Long pId) {
         this.pId = pId;
+    }
+
+    public List<Event> getEventList() {
+        return eventList;
+    }
+
+    public void setEventList(List<Event> eventList) {
+        this.eventList = eventList;
     }
 
 }

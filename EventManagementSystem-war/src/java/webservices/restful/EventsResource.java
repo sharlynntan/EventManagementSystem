@@ -6,6 +6,7 @@ package webservices.restful;
 
 import ejb.session.stateless.EventSessionBeanLocal;
 import entity.Event;
+import entity.Person;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.json.Json;
@@ -15,12 +16,14 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import util.exception.NoResultException;
 
 /**
  * REST Web Service
@@ -36,6 +39,7 @@ public class EventsResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<Event> getAllEvents() {
+        System.out.println("2");
         List<Event> listOfEvent = eventSessionBeanLocal.getAllEvents();
         for (Event e : listOfEvent) {
             e.getOrganiser().setListOfEvent(null);
@@ -48,7 +52,9 @@ public class EventsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response searchEvent(@QueryParam("searchTerm") String searchTerm) {
         GenericEntity<List<Event>> entity;
+        System.out.println("testing");
         if (searchTerm == null) {
+            System.out.println(searchTerm);
             entity = new GenericEntity<List<Event>>(getAllEvents()) {
             };
             return Response.status(200).entity(entity).build();
@@ -66,6 +72,37 @@ public class EventsResource {
                 return Response.status(400).entity(exception).build();
             }
         }
+
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCreatedEvent(@PathParam("id") Long cId) {
+        if (cId == null || cId <= 0) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid user ID")
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
+
+        List<Event> listOfEvent = eventSessionBeanLocal.getUserCreatedEvent(cId);
+
+        System.out.println("testing");
+        for (Event e : listOfEvent) {
+            e.getOrganiser().setListOfEvent(null);
+        }
+
+        if (listOfEvent.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("No events found for user with ID: " + cId)
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
+
+        return Response.status(200).entity(
+                listOfEvent
+        ).type(MediaType.APPLICATION_JSON).build();
 
     }
 
