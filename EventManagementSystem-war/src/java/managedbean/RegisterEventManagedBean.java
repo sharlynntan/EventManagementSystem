@@ -46,17 +46,34 @@ public class RegisterEventManagedBean implements Serializable {
         System.out.println("Testingggg ---------------------" + listOfRegisteredEvents.size());
     }
 
-    public void signUpEvent() {
+//    public void signUpEvent() {
+//        FacesContext context = FacesContext.getCurrentInstance();
+//        long pId = authenticationManagedBean.getUserId();
+//        System.out.println("twetwfdfsfdsfdsdfdfdssgdsgd" + pId);
+//        Map<String, String> params = context.getExternalContext()
+//                .getRequestParameterMap();
+//        String eIdStr = params.get("eId");
+//        Long eId = Long.parseLong(eIdStr);
+//        try {
+//            eventAttendanceLocal.setAttendance(eId, pId);
+//            context.addMessage(null, new FacesMessage("Success", "Successfully signed up"));
+//            populateRegisteredEvent();
+//
+//        } catch (PersonExistException | NoResultException ex) {
+//            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
+//        }
+//    }
+    
+    public void signUpEvent(Long eventId) {
+        System.out.println("testingggggggggggggggggggg" + eventId);
         FacesContext context = FacesContext.getCurrentInstance();
         long pId = authenticationManagedBean.getUserId();
-        System.out.println("twetwfdfsfdsfdsdfdfdssgdsgd" + pId);
-        Map<String, String> params = context.getExternalContext()
-                .getRequestParameterMap();
-        String eIdStr = params.get("eId");
-        Long eId = Long.parseLong(eIdStr);
+//        System.out.println(";lllllllllllllllllllllllllllllllllll" + eStr + "              " + "dddddd");
+//        Long eId = Long.parseLong(eventId);
         try {
-            eventAttendanceLocal.setAttendance(eId, pId);
+            eventAttendanceLocal.setAttendance(eventId, pId);
             context.addMessage(null, new FacesMessage("Success", "Successfully signed up"));
+            System.out.println("Successful");
             populateRegisteredEvent();
 
         } catch (PersonExistException | NoResultException ex) {

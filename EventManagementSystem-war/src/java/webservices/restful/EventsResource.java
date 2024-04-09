@@ -9,6 +9,7 @@ import entity.Event;
 import entity.Person;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.ws.rs.core.Context;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -23,6 +25,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import managedbean.RegisterEventManagedBean;
 import util.exception.NoResultException;
 
 /**
@@ -35,6 +38,9 @@ public class EventsResource {
 
     @EJB
     private EventSessionBeanLocal eventSessionBeanLocal;
+    
+    @Inject
+    private RegisterEventManagedBean registerEventManagedBean;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -104,9 +110,9 @@ public class EventsResource {
             ).type(MediaType.APPLICATION_JSON).build();
         } catch (NoResultException ex) {
             return Response.status(Response.Status.NOT_FOUND)
-                        .entity("No events found for user with ID: " + cId)
-                        .type(MediaType.TEXT_PLAIN)
-                        .build();
+                    .entity("No events found for user with ID: " + cId)
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
         }
 
     }
@@ -140,6 +146,15 @@ public class EventsResource {
                 listOfEvent
         ).type(MediaType.APPLICATION_JSON).build();
 
+    }
+
+    @POST
+    @Path("/{id}")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public void SignUp(@PathParam("id") Long eId) {
+        // Invoke the method in your managed bean
+         registerEventManagedBean.signUpEvent(eId);
     }
 
 //    @GET
