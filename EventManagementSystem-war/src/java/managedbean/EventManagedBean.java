@@ -17,6 +17,8 @@ import javax.inject.Inject;
 import ejb.session.stateless.EventSessionBeanLocal;
 import entity.Person;
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import util.exception.NoResultException;
 
 /**
  *
@@ -54,7 +57,11 @@ public class EventManagedBean implements Serializable {
 
     private String title;
 
-    private Date eventDate;
+    private Date convertedDate;
+
+    private String eventDate;
+
+    private String evenTime;
 
     private String street1;
 
@@ -66,7 +73,11 @@ public class EventManagedBean implements Serializable {
 
     private String description;
 
-    private Date deadline;
+    private Date convertedDeadline;
+
+    private String deadline;
+
+    private String deadlineTime;
 
     private String eventCat;
 
@@ -91,8 +102,18 @@ public class EventManagedBean implements Serializable {
         try {
             Event e = new Event();
             e.setTitle(title);
-            e.setDate(eventDate);
-            e.setDeadline(deadline);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            LocalDateTime dateTime = LocalDateTime.parse(eventDate + " " + evenTime, formatter);
+            convertedDate = Date.from(dateTime.atZone(java.time.ZoneId.systemDefault()).toInstant());
+
+            LocalDateTime deadline2 = LocalDateTime.parse(deadline + " " + deadlineTime, formatter);
+            convertedDeadline = Date.from(deadline2.atZone(java.time.ZoneId.systemDefault()).toInstant());
+            System.out.println(convertedDate);
+            System.out.println(convertedDeadline);
+
+            e.setDate(convertedDate);
+            e.setDeadline(convertedDeadline);
             e.setDescription(description);
             eventCategory enumtype = getEnumCategory();
             e.setEventCategory(enumtype);
@@ -171,6 +192,17 @@ public class EventManagedBean implements Serializable {
         return ec;
     }
 
+    public String getOrganiserName(long id) {
+        System.out.println("hellllo" + id);
+        try {
+            Event e = eventSessionBeanLocal.getEvent(id);
+            return e.getOrganiser().getFirstName();
+        } catch (NoResultException ex) {
+            return "Organiser Not Found";
+        }
+
+    }
+
     public List<Event> getFilteredEvent() {
         return filteredEvent;
     }
@@ -195,14 +227,13 @@ public class EventManagedBean implements Serializable {
         this.title = title;
     }
 
-    public Date getEventDate() {
-        return eventDate;
-    }
-
-    public void setEventDate(Date eventDate) {
-        this.eventDate = eventDate;
-    }
-
+//    public Date getEventDate() {;
+//        return eventDate;
+//    }
+//
+//    public void setEventDate(Date eventDate) {
+//        this.eventDate = eventDate;
+//    }
     public String getStreet1() {
         return street1;
     }
@@ -243,14 +274,13 @@ public class EventManagedBean implements Serializable {
         this.description = description;
     }
 
-    public Date getDeadline() {
-        return deadline;
-    }
-
-    public void setDeadline(Date deadline) {
-        this.deadline = deadline;
-    }
-
+//    public Date getDeadline() {
+//        return deadline;
+//    }
+//
+//    public void setDeadline(Date deadline) {
+//        this.deadline = deadline;
+//    }
     public String getEventCat() {
         return eventCat;
     }
@@ -288,6 +318,54 @@ public class EventManagedBean implements Serializable {
 
     public void setEstimateDurationMins(int estimateDurationMins) {
         this.estimateDurationMins = estimateDurationMins;
+    }
+
+    public String getEventDate() {
+        return eventDate;
+    }
+
+    public void setEventDate(String eventDate) {
+        this.eventDate = eventDate;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
+
+    public Date getConvertedDate() {
+        return convertedDate;
+    }
+
+    public void setConvertedDate(Date convertedDate) {
+        this.convertedDate = convertedDate;
+    }
+
+    public String getEvenTime() {
+        return evenTime;
+    }
+
+    public void setEvenTime(String evenTime) {
+        this.evenTime = evenTime;
+    }
+
+    public Date getConvertedDeadline() {
+        return convertedDeadline;
+    }
+
+    public void setConvertedDeadline(Date convertedDeadline) {
+        this.convertedDeadline = convertedDeadline;
+    }
+
+    public String getDeadlineTime() {
+        return deadlineTime;
+    }
+
+    public void setDeadlineTime(String deadlineTime) {
+        this.deadlineTime = deadlineTime;
     }
 
 }

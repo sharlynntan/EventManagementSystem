@@ -76,6 +76,42 @@ public class EventsResource {
     }
 
     @GET
+    @Path("/id")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getEventDetails(@QueryParam("id") Long cId) {
+        if (cId == null || cId <= 0) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid user ID")
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
+        try {
+            Event e = eventSessionBeanLocal.getEvent(cId);
+
+            System.out.println("testing");
+
+            e.getOrganiser().setListOfEvent(null);
+
+            if (e == null) {
+                return Response.status(Response.Status.NOT_FOUND)
+                        .entity("No events found for user with ID: " + cId)
+                        .type(MediaType.TEXT_PLAIN)
+                        .build();
+            }
+
+            return Response.status(200).entity(
+                    e
+            ).type(MediaType.APPLICATION_JSON).build();
+        } catch (NoResultException ex) {
+            return Response.status(Response.Status.NOT_FOUND)
+                        .entity("No events found for user with ID: " + cId)
+                        .type(MediaType.TEXT_PLAIN)
+                        .build();
+        }
+
+    }
+
+    @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCreatedEvent(@PathParam("id") Long cId) {
