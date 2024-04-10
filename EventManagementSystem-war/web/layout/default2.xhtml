@@ -100,8 +100,11 @@
                     <div class="nav-menu">
                         <nav class="mainmenu mobile-menu">
                             <ul>
-                                <li class="active"><a href="./index.xhtml">Home</a></li>
+                                <ui:fragment rendered="#{!authenticationManagedBean.loggedIn}">
+                                    <li class="active"><a href="./index.xhtml">Home</a></li>
+                                </ui:fragment>
                                 <ui:fragment rendered="#{authenticationManagedBean.loggedIn}">
+                                    <li class="active"><a href="./mainMenu.xhtml">Home</a></li>
                                     <li><a href="#">Events</a>
                                         <ul class="dropdown">
                                             <li><a href="./listingManagement.xhtml">My Events</a></li>

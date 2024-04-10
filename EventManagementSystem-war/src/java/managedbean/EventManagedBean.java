@@ -17,7 +17,13 @@ import javax.faces.event.ActionEvent;
 import javax.inject.Inject;
 import ejb.session.stateless.EventSessionBeanLocal;
 import entity.Person;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,6 +33,8 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.servlet.ServletContext;
+import javax.servlet.http.Part;
 import util.exception.NoResultException;
 
 /**
@@ -89,6 +97,14 @@ public class EventManagedBean implements Serializable {
 
     private int estimateDurationMins;
 
+    private Part uploadedFile; // +getter+setter
+
+    private File savedFile;
+
+    private String filename = "";
+
+    private String uploadDirectory = "web/eventPicture/";
+
     public EventManagedBean() {
     }
 
@@ -131,6 +147,11 @@ public class EventManagedBean implements Serializable {
             long pId = authenticationManagedBean.getUserId();
             Person p = personManagedBean.getPersonWithId(pId);
             e.setOrganiser(p);
+            System.out.println("sssssssssssssssssssss" + filename);
+            if (!filename.isEmpty()) {
+                e.setEventImage(filename);
+            }
+
             eventSessionBeanLocal.createEvent(e);
             context.addMessage(null, new FacesMessage("Success",
                     "Successfully created event!"));
@@ -141,6 +162,33 @@ public class EventManagedBean implements Serializable {
         }
 
 //        getUserCreatedEvent();
+    }
+
+    public void upload() {
+        if (uploadedFile == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "No file selected for upload."));
+            return;
+        }
+
+        ServletContext ctx = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+        String UPLOAD_DIRECTORY = ctx.getRealPath("/") + "eventPicture/";
+
+        String fileName = Paths.get(uploadedFile.getSubmittedFileName()).getFileName().toString(); // MSIE fix.
+        File savedFile = new File(UPLOAD_DIRECTORY, fileName);
+
+        try (InputStream input = uploadedFile.getInputStream();
+                OutputStream output = new FileOutputStream(savedFile)) {
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = input.read(buffer)) != -1) {
+                output.write(buffer, 0, bytesRead);
+            }
+            filename = fileName;
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Success", "File uploaded successfully."));
+        } catch (IOException e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "Failed to upload file."));
+            e.printStackTrace(); // Log the exception
+        }
     }
 
 //    public String handleSearch() {
@@ -382,6 +430,38 @@ public class EventManagedBean implements Serializable {
 
     public void setDeadlineTime(String deadlineTime) {
         this.deadlineTime = deadlineTime;
+    }
+
+    public Part getUploadedFile() {
+        return uploadedFile;
+    }
+
+    public void setUploadedFile(Part uploadedFile) {
+        this.uploadedFile = uploadedFile;
+    }
+
+    public File getSavedFile() {
+        return savedFile;
+    }
+
+    public void setSavedFile(File savedFile) {
+        this.savedFile = savedFile;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
+    }
+
+    public String getUploadDirectory() {
+        return uploadDirectory;
+    }
+
+    public void setUploadDirectory(String uploadDirectory) {
+        this.uploadDirectory = uploadDirectory;
     }
 
 }
