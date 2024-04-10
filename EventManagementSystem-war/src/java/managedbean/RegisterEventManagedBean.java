@@ -36,6 +36,8 @@ public class RegisterEventManagedBean implements Serializable {
 
     private List<Event> listOfRegisteredEvents;
 
+    private long eventId;
+
     public RegisterEventManagedBean() {
     }
 
@@ -63,8 +65,7 @@ public class RegisterEventManagedBean implements Serializable {
 //            context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", ex.getMessage()));
 //        }
 //    }
-    
-    public void signUpEvent(Long eventId) {
+    public void signUpEvent(long eId) {
         System.out.println("testingggggggggggggggggggg" + eventId);
         FacesContext context = FacesContext.getCurrentInstance();
         long pId = authenticationManagedBean.getUserId();
@@ -101,6 +102,14 @@ public class RegisterEventManagedBean implements Serializable {
 
     public void setListOfRegisteredEvents(List<Event> listOfRegisteredEvents) {
         this.listOfRegisteredEvents = listOfRegisteredEvents;
+    }
+
+    public long getEventId() {
+        return eventId;
+    }
+
+    public void setEventId(long eventId) {
+        this.eventId = eventId;
     }
 
 }

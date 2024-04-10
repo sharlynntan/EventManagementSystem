@@ -4,9 +4,12 @@
  */
 package webservices.restful;
 
+import Class.PersonAttendance;
+import ejb.session.stateless.EventAttendanceSessionBeanLocal;
 import ejb.session.stateless.EventSessionBeanLocal;
 import entity.Event;
 import entity.Person;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Inject;
@@ -16,6 +19,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -25,8 +29,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import managedbean.RegisterEventManagedBean;
 import util.exception.NoResultException;
+import util.exception.PersonExistException;
 
 /**
  * REST Web Service
@@ -38,9 +42,9 @@ public class EventsResource {
 
     @EJB
     private EventSessionBeanLocal eventSessionBeanLocal;
-    
-    @Inject
-    private RegisterEventManagedBean registerEventManagedBean;
+
+    @EJB
+    private EventAttendanceSessionBeanLocal eventAttendanceLocal;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -49,6 +53,7 @@ public class EventsResource {
         List<Event> listOfEvent = eventSessionBeanLocal.getAllEvents();
         for (Event e : listOfEvent) {
             e.getOrganiser().setListOfEvent(null);
+            e.setAttendanceList(new ArrayList<>());
         }
         return listOfEvent;
     }
@@ -69,6 +74,7 @@ public class EventsResource {
             if (!filteredResult.isEmpty()) {
                 for (Event e : filteredResult) {
                     e.getOrganiser().setListOfEvent(null);
+                    e.setAttendanceList(new ArrayList<>());
                 }
                 entity = new GenericEntity<List<Event>>(filteredResult) {
                 };
@@ -97,6 +103,7 @@ public class EventsResource {
             System.out.println("testing");
 
             e.getOrganiser().setListOfEvent(null);
+            e.setAttendanceList(new ArrayList<>());
 
             if (e == null) {
                 return Response.status(Response.Status.NOT_FOUND)
@@ -133,6 +140,7 @@ public class EventsResource {
         System.out.println("testing");
         for (Event e : listOfEvent) {
             e.getOrganiser().setListOfEvent(null);
+            e.setAttendanceList(new ArrayList<>());
         }
 
         if (listOfEvent.isEmpty()) {
@@ -149,14 +157,50 @@ public class EventsResource {
     }
 
     @POST
-    @Path("/{id}")
+    @Path("/{eventId}/userId")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public void SignUp(@PathParam("id") Long eId) {
-        // Invoke the method in your managed bean
-         registerEventManagedBean.signUpEvent(eId);
+    public Response SignUp(@PathParam("eventId") Long eventId, @QueryParam("userId") Long userId) {
+        try {
+            eventAttendanceLocal.setAttendance(eventId, userId);
+            Event e = eventSessionBeanLocal.getEvent(eventId);
+            System.out.println(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" + e.getAttendanceList().size());
+            for (PersonAttendance a : e.getAttendanceList()) {
+                System.out.println(a.getPerson().getFirstName());
+            }
+            JsonObject responseJson = Json.createObjectBuilder()
+                    .add("message", "Successful")
+                    .build();
+
+            return Response.status(Response.Status.CREATED).entity(responseJson.toString()).build();
+
+        } catch (PersonExistException | NoResultException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid data").build();
+        }
+
     }
 
+    @DELETE
+    @Path("/{eventId}/userId")
+    public Response Unregister(@PathParam("eventId") Long eventId, @QueryParam("userId") Long userId) {
+        try {
+            eventAttendanceLocal.unregisterEvent(eventId, userId);
+            Event e = eventSessionBeanLocal.getEvent(eventId);
+            System.out.println(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" + e.getAttendanceList().size());
+            for (PersonAttendance a : e.getAttendanceList()) {
+                System.out.println(a.getPerson().getFirstName());
+            }
+            JsonObject responseJson = Json.createObjectBuilder()
+                    .add("message", "Successful")
+                    .build();
+
+            return Response.status(Response.Status.CREATED).entity(responseJson.toString()).build();
+
+        } catch (NoResultException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid data").build();
+        }
+
+    }
 //    @GET
 //    @Path("/query")
 //    @Produces(MediaType.APPLICATION_JSON)

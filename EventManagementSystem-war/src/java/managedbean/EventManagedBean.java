@@ -6,6 +6,7 @@ package managedbean;
 
 import Class.Address;
 import Class.PersonAttendance;
+import ejb.session.stateless.EventAttendanceSessionBeanLocal;
 import entity.Event;
 import util.enumeration.eventCategory;
 import java.util.Date;
@@ -47,6 +48,9 @@ public class EventManagedBean implements Serializable {
 
     @Inject
     private CreatedEventManagedBean createdManagedBean;
+
+    @EJB
+    private EventAttendanceSessionBeanLocal eventAttendanceLocal;
 
 //    private boolean globalFilterOnly = false;
     private String searchTerm = "";
@@ -201,6 +205,18 @@ public class EventManagedBean implements Serializable {
             return "Organiser Not Found";
         }
 
+    }
+
+    public List<Long> checkEventStatus() {
+        // return true if registered
+        List<Event> eventList = eventAttendanceLocal.getRegisteredEventList(authenticationManagedBean.getUserId());
+        System.out.println("sssssssssssssssssssssssssssss" + eventList.size());
+        List<Long> idList = new ArrayList<>();
+        for (Event e : eventList) {
+            idList.add(e.getId());
+        }
+
+        return idList;
     }
 
     public List<Event> getFilteredEvent() {
