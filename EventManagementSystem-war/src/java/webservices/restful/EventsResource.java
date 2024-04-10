@@ -201,6 +201,23 @@ public class EventsResource {
         }
 
     }
+
+    @DELETE
+    @Path("/id")
+    public Response DeleteEvent(@QueryParam("id") Long eventId) {
+        try {
+            eventSessionBeanLocal.deleteEvent(eventId);
+            JsonObject responseJson = Json.createObjectBuilder()
+                    .add("message", "Successful")
+                    .build();
+
+            return Response.status(Response.Status.CREATED).entity(responseJson.toString()).build();
+
+        } catch (NoResultException ex) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Invalid data").build();
+        }
+
+    }
 //    @GET
 //    @Path("/query")
 //    @Produces(MediaType.APPLICATION_JSON)
