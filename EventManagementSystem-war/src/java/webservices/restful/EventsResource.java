@@ -10,6 +10,7 @@ import ejb.session.stateless.EventSessionBeanLocal;
 import entity.Event;
 import entity.Person;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.inject.Inject;
@@ -55,7 +56,11 @@ public class EventsResource {
             e.getOrganiser().setListOfEvent(null);
             e.setAttendanceList(new ArrayList<>());
         }
-        return listOfEvent;
+        if (listOfEvent.isEmpty()) {
+            return Collections.emptyList(); // Return an empty list
+        } else {
+            return listOfEvent;
+        }
     }
 
     @GET
@@ -145,8 +150,8 @@ public class EventsResource {
 
         if (listOfEvent.isEmpty()) {
             return Response.status(Response.Status.NOT_FOUND)
-                    .entity("No events found for user with ID: " + cId)
-                    .type(MediaType.TEXT_PLAIN)
+                    .entity(Collections.emptyList())
+                    .type(MediaType.APPLICATION_JSON)
                     .build();
         }
 
