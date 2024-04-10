@@ -161,6 +161,38 @@ public class EventsResource {
 
     }
 
+    @GET
+    @Path("/registered/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getRegisteredEvent(@PathParam("id") Long cId) {
+        if (cId == null || cId <= 0) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid user ID")
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
+
+        List<Event> listOfEvent = eventAttendanceLocal.getRegisteredEventList(cId);
+
+        System.out.println("testing");
+        for (Event e : listOfEvent) {
+            e.getOrganiser().setListOfEvent(null);
+            e.setAttendanceList(new ArrayList<>());
+        }
+
+        if (listOfEvent.isEmpty()) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity(Collections.emptyList())
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
+
+        return Response.status(200).entity(
+                listOfEvent
+        ).type(MediaType.APPLICATION_JSON).build();
+
+    }
+
     @POST
     @Path("/{eventId}/userId")
     @Consumes(MediaType.APPLICATION_JSON)

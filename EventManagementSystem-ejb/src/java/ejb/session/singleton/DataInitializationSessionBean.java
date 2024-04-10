@@ -99,19 +99,19 @@ public class DataInitializationSessionBean {
                     df.parse("09/05/2024"), eventCategory.HOBBIES, p1, 140, 120));
             eventSessionBeanLocal.createEvent(new Event("Science Centre Adventure", df.parse("01/06/2024"), a5, "School holidays are coming, nothing to do this holidy? Join us today! Parents bring children along for free.",
                     df.parse("20/5/2024"), eventCategory.HOLIDAYS, p4, 200, 120));
-            eventSessionBeanLocal.createEvent(new Event("Wellbeing day", df.parse("12/04/2024"), a6, "Feeling stress about work? Come join us today at wellbeing day. Free health screening and talks from professional fields.",
-                    df.parse("11/04/2024"), eventCategory.HEALTH, p5, 102, 120));
+            eventSessionBeanLocal.createEvent(new Event("Wellbeing day", df.parse("25/04/2024"), a6, "Feeling stress about work? Come join us today at wellbeing day. Free health screening and talks from professional fields.",
+                    df.parse("25/04/2024"), eventCategory.HEALTH, p5, 102, 120));
             eventSessionBeanLocal.createEvent(new Event("Koi Taste Testing", df.parse("10/07/2024"), a3, "Food tasting for all!",
                     df.parse("09/07/2024"), eventCategory.FOODANDDRINK, p5, 200, 120));
-            eventSessionBeanLocal.createEvent(new Event("Fitness Event", df.parse("11/04/2024"), a1, "Annual fitness event for all",
+            eventSessionBeanLocal.createEvent(new Event("Fitness Event", df.parse("11/05/2024"), a1, "Annual fitness event for all",
                     df.parse("19/04/2024"), eventCategory.HOBBIES, p3, 500, 120));
-            eventSessionBeanLocal.createEvent(new Event("University Performing Showcase", df.parse("11/04/2024"), a1, "Come catch the annual showcase day for everyone",
+            eventSessionBeanLocal.createEvent(new Event("University Performing Showcase", df.parse("21/04/2024"), a1, "Come catch the annual showcase day for everyone",
                     df.parse("19/04/2024"), eventCategory.HOBBIES, p2, 300, 120));
-            eventSessionBeanLocal.createEvent(new Event("Hari Raya Bazaar", df.parse("15/04/2024"), a1, "Are you excited for our annual bazzar? Come join us for all the delicious food",
+            eventSessionBeanLocal.createEvent(new Event("Hari Raya Bazaar", df.parse("25/04/2024"), a1, "Are you excited for our annual bazzar? Come join us for all the delicious food",
                     df.parse("19/04/2024"), eventCategory.FOODANDDRINK, p1, 400, 120));
-            eventSessionBeanLocal.createEvent(new Event("Job Fair 2024", df.parse("15/04/2024"), a1, "Singapore biggest workfair is back by popular demand!",
+            eventSessionBeanLocal.createEvent(new Event("Job Fair 2024", df.parse("15/05/2024"), a1, "Singapore biggest workfair is back by popular demand!",
                     df.parse("19/04/2024"), eventCategory.BUSINESS, p3, 300, 120));
-            eventSessionBeanLocal.createEvent(new Event("Advance Navigation in Sailing Workshop", df.parse("16/04/2024"), a1, "Singapore biggest sailing workshop is back!",
+            eventSessionBeanLocal.createEvent(new Event("Advance Navigation in Sailing Workshop", df.parse("16/06/2024"), a1, "Singapore biggest sailing workshop is back!",
                     df.parse("16/04/2024"), eventCategory.HOBBIES, p3, 300, 120, "sailing.png"));
             eventSessionBeanLocal.createEvent(new Event("Consulting Coffee Chat", df.parse("30/04/2024"), a1, "Speak to a professional at Borcelle today!",
                     df.parse("29/04/2024"), eventCategory.BUSINESS, p3, 300, 120, "coffee.png"));
