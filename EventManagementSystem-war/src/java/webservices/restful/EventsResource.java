@@ -255,6 +255,39 @@ public class EventsResource {
         }
 
     }
+
+    @GET
+    @Path("/attendance")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAttendanceList(@QueryParam("id") Long eventId) {
+        if (eventId == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid Event ID")
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
+
+        try {
+
+            Event e = eventSessionBeanLocal.getEvent(eventId);
+            List<PersonAttendance> attendances = e.getAttendanceList();
+            for (PersonAttendance a: attendances) {
+                a.getPerson().setListOfEvent(new ArrayList<>());
+            }
+
+            return Response.status(200).entity(
+                    attendances
+            ).type(MediaType.APPLICATION_JSON).build();
+
+        } catch (NoResultException ex) {
+            return Response.status(Response.Status.NOT_FOUND)
+                    .entity("No events found for event with ID: " + eventId)
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
+
+    }
+
 //    @GET
 //    @Path("/query")
 //    @Produces(MediaType.APPLICATION_JSON)
