@@ -45,7 +45,7 @@ public class EventsResource {
     private EventSessionBeanLocal eventSessionBeanLocal;
 
     @EJB
-    private EventAttendanceSessionBeanLocal eventAttendanceLocal;
+    private EventAttendanceSessionBeanLocal eventAttendanceSessionBeanLocal;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -172,7 +172,7 @@ public class EventsResource {
                     .build();
         }
 
-        List<Event> listOfEvent = eventAttendanceLocal.getRegisteredEventList(cId);
+        List<Event> listOfEvent = eventAttendanceSessionBeanLocal.getRegisteredEventList(cId);
 
         System.out.println("testing");
         for (Event e : listOfEvent) {
@@ -199,7 +199,7 @@ public class EventsResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response SignUp(@PathParam("eventId") Long eventId, @QueryParam("userId") Long userId) {
         try {
-            eventAttendanceLocal.setAttendance(eventId, userId);
+            eventAttendanceSessionBeanLocal.setAttendance(eventId, userId);
             Event e = eventSessionBeanLocal.getEvent(eventId);
             System.out.println(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" + e.getAttendanceList().size());
             for (PersonAttendance a : e.getAttendanceList()) {
@@ -221,7 +221,7 @@ public class EventsResource {
     @Path("/{eventId}/userId")
     public Response Unregister(@PathParam("eventId") Long eventId, @QueryParam("userId") Long userId) {
         try {
-            eventAttendanceLocal.unregisterEvent(eventId, userId);
+            eventAttendanceSessionBeanLocal.unregisterEvent(eventId, userId);
             Event e = eventSessionBeanLocal.getEvent(eventId);
             System.out.println(";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;" + e.getAttendanceList().size());
             for (PersonAttendance a : e.getAttendanceList()) {
@@ -271,7 +271,7 @@ public class EventsResource {
 
             Event e = eventSessionBeanLocal.getEvent(eventId);
             List<PersonAttendance> attendances = e.getAttendanceList();
-            for (PersonAttendance a: attendances) {
+            for (PersonAttendance a : attendances) {
                 a.getPerson().setListOfEvent(new ArrayList<>());
             }
 
@@ -285,6 +285,76 @@ public class EventsResource {
                     .type(MediaType.TEXT_PLAIN)
                     .build();
         }
+
+    }
+
+    @POST
+    @Path("/{eventId}/attendance")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response MarkPresent(@PathParam("eventId") Long eventId, @QueryParam("id") Long userId) {
+
+        if (eventId == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid Event ID")
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
+
+        eventAttendanceSessionBeanLocal.updateAttendance(eventId, userId, true);
+        try {
+            Event e = eventSessionBeanLocal.getEvent(eventId);
+            List<PersonAttendance> a = e.getAttendanceList();
+            for (PersonAttendance p : a) {
+                System.out.println(p.getPerson().getId() + " " + p.isAttendance());
+            }
+        } catch (NoResultException ex) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid Event ID")
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
+
+        JsonObject responseJson = Json.createObjectBuilder()
+                .add("message", "Successful")
+                .build();
+
+        return Response.status(Response.Status.CREATED).entity(responseJson.toString()).build();
+
+    }
+
+    @POST
+    @Path("/{eventId}/absent")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response MarkAbsent(@PathParam("eventId") Long eventId, @QueryParam("id") Long userId) {
+
+        if (eventId == null) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid Event ID")
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
+
+        eventAttendanceSessionBeanLocal.updateAttendance(eventId, userId, false);
+        try {
+            Event e = eventSessionBeanLocal.getEvent(eventId);
+            List<PersonAttendance> a = e.getAttendanceList();
+            for (PersonAttendance p : a) {
+                System.out.println(p.getPerson().getId() + " " + p.isAttendance());
+            }
+        } catch (NoResultException ex) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity("Invalid Event ID")
+                    .type(MediaType.TEXT_PLAIN)
+                    .build();
+        }
+
+        JsonObject responseJson = Json.createObjectBuilder()
+                .add("message", "Successful")
+                .build();
+
+        return Response.status(Response.Status.CREATED).entity(responseJson.toString()).build();
 
     }
 
