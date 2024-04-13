@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 
     <body>
         <ui:composition template="./layout/default2.xhtml">
@@ -11,8 +12,6 @@
             <ui:define name="content">
 
                 <h:form>
-                    <h:messages id="messages" globalOnly="true" layout="table" styleClass="error-message"  showDetail="true"  />
-
                     <div class="row d-flex justify-content-center">
                         <div class="col-xl-7 col-lg-8 col-md-9 col-11 text-center">
                             <h3 style="color: #F05E16;">Create New Account</h3>
@@ -25,10 +24,14 @@
                                                 *</span></label> 
                                         <h:inputText id="fname" value="#{personManagedBean.firstName}"
                                                      style="padding: 8px 15px; border-radius: 5px !important; margin: 5px 0px; box-sizing: border-box; border: 1px
-                                                     solid #ccc; font-size: 18px !important; font-weight: 300; width:550px"/> </div>
+                                                     solid #ccc; font-size: 18px !important; font-weight: 300; width:550px" required="true"
+                                                     requiredMessage="First Name is required."/> 
+                                        <h:message for="fname" style="border: 2px solid red; padding: 10px;padding: 10px; border-radius: 5px; background-color: #c61a09;
+                                                   color: white;"/>
+                                    </div>
                                     <div class="form-group col-sm-6 flex-column d-flex"> 
                                         <label class="form-control-label px-3" style="margin-bottom: 0;">Last name<span class="text-danger"> 
-                                                *</span></label> 
+                                            </span></label> 
                                         <h:inputText  id="lname" value="#{personManagedBean.lastName}"
                                                       style="padding: 8px 15px; border-radius: 5px !important; margin: 5px 0px; box-sizing: border-box; border: 1px
                                                       solid #ccc; font-size: 18px !important; font-weight: 300; width:550px"/> </div>
@@ -38,26 +41,36 @@
                                         <label class="form-control-label px-3" style="margin-bottom: 0;">Email<span class="text-danger"> 
                                                 *</span></label> <h:inputText id="email" value="#{personManagedBean.email}" 
                                                                       style="padding: 8px 15px; border-radius: 5px !important; margin: 5px 0px; box-sizing: border-box; border: 1px
-                                                                      solid #ccc; font-size: 18px !important; font-weight: 300; width:550px"/> </div>
+                                                                      solid #ccc; font-size: 18px !important; font-weight: 300; width:550px"  required="true"
+                                                                      requiredMessage="Email is required."/> 
+                                        <h:message for="email" style="border: 2px solid red; padding: 10px;padding: 10px; border-radius: 5px; background-color: #c61a09;
+                                                   color: white;"/>
+                                    </div>
                                     <div class="form-group col-sm-6 flex-column d-flex"> 
                                         <label class="form-control-label px-3" style="margin-bottom: 0;">Phone number<span class="text-danger"> 
-                                                *</span></label> <h:inputText id="mob" value="#{personManagedBean.contactNumber}" 
-                                                                      style="padding: 8px 15px; border-radius: 5px !important; margin: 5px 0px; box-sizing: border-box; border: 1px
-                                                                      solid #ccc; font-size: 18px !important; font-weight: 300; width:550px"/> </div>
+                                            </span></label> <h:inputText id="mob" value="#{personManagedBean.contactNumber}" 
+                                                                     style="padding: 8px 15px; border-radius: 5px !important; margin: 5px 0px; box-sizing: border-box; border: 1px
+                                                                     solid #ccc; font-size: 18px !important; font-weight: 300; width:550px"/> </div>
                                 </div>
                                 <div class="row justify-content-between text-left">
                                     <div class="form-group col-sm-6 flex-column d-flex"> 
                                         <label class="form-control-label px-3" style="margin-bottom: 0;">Password<span class="text-danger"> 
                                                 *</span></label> <h:inputSecret id="password" value="#{personManagedBean.password}"  
                                                                         style="padding: 8px 15px; border-radius: 5px !important; margin: 5px 0px; box-sizing: border-box; border: 1px
-                                                                        solid #ccc; font-size: 18px !important; font-weight: 300;"/> 
+                                                                        solid #ccc; font-size: 18px !important; font-weight: 300;"  required="true"
+                                                                        requiredMessage="Password is required."/> 
+                                        <h:message for="password" style="border: 2px solid red; padding: 10px;padding: 10px; border-radius: 5px; background-color: #c61a09;
+                                                   color: white;"/>
                                     </div>
 
                                     <div class="form-group col-sm-6 flex-column d-flex"> 
                                         <label class="form-control-label px-3" style="margin-bottom: 0;"> Confirmed Password<span class="text-danger"> 
                                                 *</span></label> <h:inputSecret id="newPassword" value="#{personManagedBean.confirmedPassword}"  
                                                                         style="padding: 8px 15px; border-radius: 5px !important; margin: 5px 0px; box-sizing: border-box; border: 1px
-                                                                        solid #ccc; font-size: 18px !important; font-weight: 300;"/> 
+                                                                        solid #ccc; font-size: 18px !important; font-weight: 300;" required="true"
+                                                                        requiredMessage="Confirmed Password is required."/> 
+                                        <h:message for="newPassword" style="border: 2px solid red; padding: 10px;padding: 10px; border-radius: 5px; background-color: #c61a09;
+                                                   color: white;"/>
                                     </div>
 
 
@@ -72,7 +85,7 @@
                                                      action="#{personManagedBean.addPerson}"
                                                      value="Create Account"/>
                                     &nbsp;
-                                    <a href="register.xhtml"><h:commandButton class="site-btn" value="Reset"/></a>
+                                    <a href="register.xhtml" onclick="window.location.reload();"><h:commandButton class="site-btn" value="Reset" type="button"/></a>
                                     <!--</center>-->
                                     <!--</div>-->
                                 </div>
@@ -82,6 +95,15 @@
                     </div>
                     <!--</div>-->
                 </h:form>
+                <script>
+                    function showMessages() {
+                        document.getElementById('error-messages-container').style.display = 'block';
+                    }
+
+                    function hideMessages() {
+                        document.getElementById('error-messages-container').style.display = 'none';
+                    }
+                </script>
 
             </ui:define>
 

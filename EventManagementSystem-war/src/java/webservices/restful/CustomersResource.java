@@ -19,10 +19,10 @@ import util.exception.NoResultException;
 
 @Path("customers")
 public class CustomersResource {
-
+    
     @EJB
     private PersonSessionBeanLocal personSessionBeanLocal;
-
+    
     @GET
     @Secured
     @Path("/me")
@@ -37,13 +37,14 @@ public class CustomersResource {
                 null
         ).type(MediaType.APPLICATION_JSON).build();
     }
-
+    
     @GET
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCustomer(@PathParam("id") Long cId) {
         try {
             Person p = personSessionBeanLocal.getPerson(cId);
+            p.setListOfEvent(null);
             return Response.status(200).entity(
                     p
             ).type(MediaType.APPLICATION_JSON).build();
@@ -55,5 +56,5 @@ public class CustomersResource {
                     .type(MediaType.APPLICATION_JSON).build();
         }
     }
-
+    
 }
