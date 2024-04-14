@@ -1,4 +1,4 @@
-# IS3106 Assignment 1 Online Event Management System
+# IS3106 Assignment 2 Online Event Management System
 Name: Tan Hui Xin Sharlynn
 Student Number: A0254722H
 Database Details and Instruction for deploying project:
@@ -9,6 +9,8 @@ password: password
 After deployment of Application, the following credential can be used to login:
 email: syafi@gmail.com
 password: password
+
+When initialising data init, please ensure that the deadlines in the columns are future (ahead of today's date time)
 
 
 #Completed Used Case
@@ -29,7 +31,7 @@ password: password
 #Extra Features:
 1. Browse Event By Category
 2. View Profile of other users E.g. Creator of event or Attendee of event
-3. Upload/Change Event Cover Image
+3. Upload Event Cover Image
 4. Password Hashing
 
-Some given assumption for events: when maxpax is met, no new user can sign up. Organiser cannot sign up for their own events.
+Some given assumption for events: when maxpax is met, no new user can sign up. Organiser cannot sign up for their own events. When deadline is passed, cannot sign up for events.

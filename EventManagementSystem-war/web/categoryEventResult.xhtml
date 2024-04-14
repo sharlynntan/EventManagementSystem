@@ -9,7 +9,7 @@
 
             <ui:define name="content">
                 <center><h3>View Search Category</h3></center>
-                <div class="row mt-4" id="results"></div>
+                <div class="row mt-4" id="results" style='display: flex;justify-content: center;align-items: center; padding-left: 10px'></div>
 
                 <div id="details" class="dialog">
                     <div class="dialog-content">
@@ -52,6 +52,8 @@
                                 })
                                 .catch(error => {
                                     console.error('Error fetching data:', error);
+                                    var resultsDiv = document.getElementById('results');
+                                    resultsDiv.innerHTML = '<p>No results found.</p>';
                                 });
                     }
 
