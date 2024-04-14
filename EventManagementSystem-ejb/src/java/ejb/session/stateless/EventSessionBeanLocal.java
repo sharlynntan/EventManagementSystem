@@ -32,4 +32,6 @@ public interface EventSessionBeanLocal {
 
     public List<Event> getCategorisedEvent(String enumStr);
 
+    public List<Event> filterCategory(String enumStr);
+
 }

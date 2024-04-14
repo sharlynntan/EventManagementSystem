@@ -358,21 +358,22 @@ public class EventsResource {
 
     }
 
-//    @GET
-//    @Path("/query")
-//    @Produces(MediaType.APPLICATION_JSON)
-//    public Response getCategorisedEvents(@QueryParam("category") String category) {
-//        List<Event> filteredEvent = eventSessionBeanLocal.getCategorisedEvent(category);
-//        if (!filteredEvent.isEmpty()) {
-//            for (Event e : filteredEvent) {
-//                e.getOrganiser().setListOfEvent(null);
-//            }
-//            GenericEntity<List<Event>> entity = new GenericEntity<List<Event>>(filteredEvent) {
-//            };
-//            return Response.status(200).entity(entity).build();
-//        } else {
-//            JsonObject exception = Json.createObjectBuilder().add("error", "No query conditions").build();
-//            return Response.status(400).entity(exception).build();
-//        }
-//    }
+    @GET
+    @Path("/category")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getCategorisedEvents(@QueryParam("category") String category) {
+        List<Event> filteredEvent = eventSessionBeanLocal.filterCategory(category);
+        if (!filteredEvent.isEmpty()) {
+            for (Event e : filteredEvent) {
+                e.getOrganiser().setListOfEvent(null);
+                e.setAttendanceList(new ArrayList<>());
+            }
+            GenericEntity<List<Event>> entity = new GenericEntity<List<Event>>(filteredEvent) {
+            };
+            return Response.status(200).entity(entity).build();
+        } else {
+            JsonObject exception = Json.createObjectBuilder().add("error", "No query conditions").build();
+            return Response.status(400).entity(exception).build();
+        }
+    }
 }

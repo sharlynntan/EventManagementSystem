@@ -1,56 +1,19 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <body>
-        <!--        <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"/>
-                <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>-->
 
         <ui:composition template="./layout/default2.xhtml">
 
-
-            <ui:define name="top">
-                Main Page
-            </ui:define>
-
             <ui:define name="content">
-                <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="bannerImage/gallery1.png" class="d-block w-100" alt="..."/>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="bannerImage/gallery2.png" class="d-block w-100" alt="..."/>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="bannerImage/gallery3.png" class="d-block w-100" alt="..."/>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 mx-auto">
-                            <div class="input-group">
-                                <input type="text" id="searchInput" class="form-control" placeholder="Enter search query"/>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-secondary"  onclick="search()" type="button">Go!</button>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <center><h3>View Search Category</h3></center>
                 <div class="row mt-4" id="results"></div>
 
-
-                <div id="dialog" class="dialog">
+                <div id="details" class="dialog">
                     <div class="dialog-content">
-                        <span class="close" onclick="closeConfirmDialog()">&times;</span>
+                        <span class="close" onclick="closeResultDialog()">&times;</span>
                         <h2>Event Details</h2>
                         <img id="eventImage" alt="Event Image" style="width:300px"/>
                         <p>Event Id: <span id="eventId"></span></p>
@@ -65,42 +28,22 @@
                     </div>
                 </div>
 
-
-
-
-                &nbsp;
-
-
-                &nbsp;
-
-
-                <!-- Bootstrap CSS -->
-                <!--<link href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet"/>-->
-
-                <!-- Bootstrap JavaScript (Bundle with Popper) -->
-                <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>-->
-
-                <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-                <h:outputScript name="js/owl.carousel.min.js"/>
-
-                <script>
-                            const myCarouselElement = document.querySelector('#myCarousel')
-
-                            const carousel = new bootstrap.Carousel(myCarouselElement, {
-                                interval: 2000,
-                                touch: false
-                            })
-                </script>
-
                 <script>
                     window.onload = function () {
-                        loadAllResults();
+                        console.log("lol");
+                        const paramValue = getQueryParam('categoryEnum');
+                        console.log(paramValue);
+                        loadAllResults(paramValue);
                     }
 
+                    function getQueryParam(paramName) {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        return urlParams.get(paramName);
+                    }
 
-                    function loadAllResults() {
-                        var url = './webresources/events'
+                    function loadAllResults(paramValue) {
+                        console.log(paramValue);
+                        var url = './webresources/events/category?category=' + paramValue;
 
                         fetch(url)
                                 .then(response => response.json())
@@ -121,21 +64,7 @@
                             return;
                         }
 
-                        //                        results.forEach(result => {
-                        //                            console.log(result.title);
-                        //                            var name = result.title;
-                        //                            var card = `
-                        //                                <div class="col-md-4 mb-4">
-                        //                                    <div class="card">
-                        //                                        <div class="card-body">
-                        //                                            <h5 class="card-title">Title: ${result.title}</h5>
-                        //                                            <p class="card-text">${result.description}</p>
-                        //                                        </div>
-                        //                                    </div>
-                        //                                </div>
-                        //                            `;
-                        //                            resultsDiv.innerHTML += card;
-                        //                        });
+                        console.log("hello");
 
                         results.forEach(result => {
                             console.log(result);
@@ -152,8 +81,6 @@
                             var formattedDate2 = deadlineString.split('-').reverse().join('-'); // Reformat date string as 'dd-MM-yyyy'
                             var formattedTime2 = deadlineTimeString;
 
-                            console.log(result.id);
-
                             var card =
                                     '<div class="col-md-4 mb-4">' +
                                     '  <div class="card">' +
@@ -164,7 +91,7 @@
                                     '      <p class="card-text">' + result.description + '</p>' +
                                     '      <p class="card-text">' + formattedDate + ' ' + formattedTime + '</p>' +
                                     '      <p class="card-text"> Sign Up By ' + formattedDate2 + ' ' + formattedTime2 + '</p>' +
-                                    '      <center><button class="btn btn-primary" onclick="confirmDialog(' + result.id + ')" style="width:300px">More Details</button></center>' +
+                                    '      <center><button class="btn btn-primary" onclick="showResults(' + result.id + ')" style="width:300px" type="button">More Details</button></center>' +
                                     '    </div>' +
                                     '  </div>' +
                                     '</div>';
@@ -173,37 +100,20 @@
                         });
                     }
 
-
-                    function search() {
-                        var query = document.getElementById('searchInput').value;
-                        console.log("testing" + query);
-                        var url = './webresources/events/query?searchTerm=' + encodeURIComponent(query);
-
-                        fetch(url)
-                                .then(response => response.json())
-                                .then(data => {
-                                    displayResults(data);
-                                })
-                                .catch(error => {
-                                    console.error('Error fetching data:', error);
-                                });
-                    }
-
-                    function confirmDialog(eventId) {
-                        document.getElementById('dialog').style.display = 'block';
+                    function showResults(eventId) {
+                        document.getElementById('details').style.display = 'block';
                         showEventDetails(eventId);
                     }
 
-                    function closeConfirmDialog() {
-                        document.getElementById('dialog').style.display = 'none';
+                    function closeResultDialog() {
+                        document.getElementById('details').style.display = 'none';
                     }
 
                     function showEventDetails(eventId) {
-                        // Here, you can fetch event details using AJAX (e.g., fetch API or jQuery AJAX) or access them directly from a managed bean
-                        // For example, if you're using fetch API:
                         fetch('./webresources/events/id?id=' + eventId)
                                 .then(response => response.json())
                                 .then(data => {
+
                                     var dateString = data.date.substring(0, 10); // Extracts 'yyyy-MM-dd'
                                     var timeString = data.date.substring(11, 16); // Extracts 'HH:mm'
 
@@ -215,6 +125,7 @@
 
                                     var formattedDate2 = deadlineString.split('-').reverse().join('-'); // Reformat date string as 'dd-MM-yyyy'
                                     var formattedTime2 = deadlineTimeString;
+
                                     // Populate the dialog with event details
                                     document.getElementById('eventImage').src = "./eventPicture/" + data.eventImage;
                                     document.getElementById('eventTitle').textContent = data.title;
@@ -227,23 +138,12 @@
                                     console.log("eventId:", eventId);
                                     var organiserName = data.organiser.firstName + " " + data.organiser.lastName;
                                     document.getElementById('organiser').textContent = organiserName;
-
-
-
-
-
-                                    console.log(data.title);
                                 })
                                 .catch(error => console.error('Error fetching event details:', error));
                     }
-
-
                 </script>
 
-
             </ui:define>
-
-
 
         </ui:composition>
 

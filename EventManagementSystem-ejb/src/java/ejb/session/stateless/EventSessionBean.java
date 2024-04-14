@@ -52,6 +52,14 @@ public class EventSessionBean implements EventSessionBeanLocal {
         return query.getResultList();
     }
 
+    public List<Event> filterCategory(String enumStr) {
+        eventCategory ec = getQueryCat(enumStr);
+        System.out.println("-------------------" + enumStr);
+        Query query = em.createQuery("SELECT e FROM Event e WHERE e.eventCategory = :enumCat");
+        query.setParameter("enumCat", ec);
+        return query.getResultList();
+    }
+
     public void createEvent(Event e) {
         try {
             System.out.println("Creating event");
@@ -94,6 +102,40 @@ public class EventSessionBean implements EventSessionBeanLocal {
         Query query = em.createQuery("SELECT e FROM Event e WHERE e.organiser.id = :pid");
         query.setParameter("pid", pid);
         return query.getResultList();
+    }
+
+    public eventCategory getQueryCat(String eventCat) {
+        eventCategory ec;
+
+        switch (eventCat.toLowerCase()) {
+            case "music":
+                ec = eventCategory.MUSIC;
+                break;
+            case "nightlife":
+                ec = eventCategory.NIGHTLIFE;
+                break;
+            case "performingart":
+                ec = eventCategory.PERFORMINGART;
+                break;
+            case "holidays":
+                ec = eventCategory.HOLIDAYS;
+                break;
+            case "health":
+                ec = eventCategory.HEALTH;
+                break;
+            case "hobbies":
+                ec = eventCategory.HOBBIES;
+                break;
+            case "business":
+                ec = eventCategory.BUSINESS;
+                break;
+            case "foodanddrink":
+                ec = eventCategory.FOODANDDRINK;
+                break;
+            default:
+                ec = eventCategory.OTHER;
+        }
+        return ec;
     }
 
     public eventCategory getEnumCategory(String eventCat) {
