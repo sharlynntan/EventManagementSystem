@@ -1,14 +1,6 @@
 # IS3106 Assignment 2 Online Event Management System
-Name: Tan Hui Xin Sharlynn
-Student Number: A0254722H
 Database Details and Instruction for deploying project:
 Java DB Database Name: eventManagementSystemDB
-User: administrator
-password: password
-
-After deployment of Application, the following credential can be used to login:
-email: syafi@gmail.com
-password: password
 
 When initialising data init, please ensure that the deadlines in the columns are future (ahead of today's date time)
 
